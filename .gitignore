@@ -14,3 +14,6 @@ mono_crash.*.json
 *.tmp
 Thumbs.db
 .DS_Store
+
+# Editor-locked GDExtension temp copies
+**/~*.dll

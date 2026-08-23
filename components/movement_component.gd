@@ -20,13 +20,18 @@ extends Node
 @export var air_jumps: int = 1
 @export var coyote_time: float = 0.12
 @export var jump_buffer_time: float = 0.15
+## Minimum time after a jump before the air jump may fire.
+@export var double_jump_delay: float = 0.18
 
 @export_group("Gravity")
-@export var gravity_multiplier: float = 1.8
+@export var gravity_multiplier: float = 2.0
+## Extra gravity while falling, for a heavier arc without changing apex height.
+@export var fall_gravity_multiplier: float = 1.3
 
 var _base_gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _coyote_timer: float = 0.0
 var _buffer_timer: float = 0.0
+var _jump_lockout: float = 0.0
 var _air_jumps_left: int = 0
 var _jump_pressed_this_tick: bool = false
 
@@ -45,17 +50,22 @@ func _physics_process(delta: float) -> void:
 		_coyote_timer = coyote_time
 		_air_jumps_left = air_jumps
 	else:
-		body.velocity.y -= _base_gravity * gravity_multiplier * delta
+		var gravity: float = _base_gravity * gravity_multiplier
+		if body.velocity.y < 0.0:
+			gravity *= fall_gravity_multiplier
+		body.velocity.y -= gravity * delta
 
 	var can_ground_jump: bool = body.is_on_floor() or _coyote_timer > 0.0
 	if _buffer_timer > 0.0 and can_ground_jump:
 		_jump(jump_height)
-	elif _jump_pressed_this_tick and not can_ground_jump and _air_jumps_left > 0:
+	elif _jump_pressed_this_tick and not can_ground_jump \
+			and _air_jumps_left > 0 and _jump_lockout <= 0.0:
 		_air_jumps_left -= 1
 		_jump(double_jump_height)
 	_jump_pressed_this_tick = false
 	_coyote_timer = maxf(_coyote_timer - delta, 0.0)
 	_buffer_timer = maxf(_buffer_timer - delta, 0.0)
+	_jump_lockout = maxf(_jump_lockout - delta, 0.0)
 
 	var move_direction: Vector3 = _get_world_move_direction()
 	var horizontal: Vector3 = Vector3(body.velocity.x, 0.0, body.velocity.z)
@@ -74,6 +84,7 @@ func _jump(height: float) -> void:
 	body.velocity.y = sqrt(2.0 * _base_gravity * gravity_multiplier * height)
 	_coyote_timer = 0.0
 	_buffer_timer = 0.0
+	_jump_lockout = double_jump_delay
 
 
 func _get_world_move_direction() -> Vector3:
