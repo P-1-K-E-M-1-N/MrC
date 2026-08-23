@@ -6,8 +6,12 @@ extends Node
 
 signal jump_pressed
 signal jump_released
+signal melee_pressed
+signal weapon_next_pressed
+signal weapon_prev_pressed
 
 var move_vector: Vector2 = Vector2.ZERO
+var attack_held: bool = false
 
 
 func _ready() -> void:
@@ -16,6 +20,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	move_vector = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	attack_held = Input.is_action_pressed("attack")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -23,6 +28,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		jump_pressed.emit()
 	elif event.is_action_released("jump"):
 		jump_released.emit()
+	elif event.is_action_pressed("melee"):
+		melee_pressed.emit()
+	elif event.is_action_pressed("weapon_next"):
+		weapon_next_pressed.emit()
+	elif event.is_action_pressed("weapon_prev"):
+		weapon_prev_pressed.emit()
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event is InputEventMouseButton and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
