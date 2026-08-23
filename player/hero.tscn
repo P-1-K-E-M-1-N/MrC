@@ -44,10 +44,11 @@ mesh = SubResource("BoxMesh_nose")
 [node name="InputComponent" type="Node" parent="."]
 script = ExtResource("1_input")
 
-[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "visual")]
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "camera_rig", "visual")]
 script = ExtResource("2_move")
 body = NodePath("..")
 input_component = NodePath("../InputComponent")
+camera_rig = NodePath("../CameraRig")
 visual = NodePath("../Visual")
 
 [node name="HealthComponent" type="Node" parent="."]
