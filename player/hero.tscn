@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=11 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://components/input_component.gd" id="1_input"]
+[ext_resource type="Script" path="res://player/camera_rig.gd" id="5_camrig"]
 [ext_resource type="Script" path="res://components/movement_component.gd" id="2_move"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="3_health"]
 [ext_resource type="Script" path="res://components/weapon_holder_component.gd" id="4_weapon"]
@@ -54,3 +55,15 @@ script = ExtResource("3_health")
 
 [node name="WeaponHolderComponent" type="Node" parent="."]
 script = ExtResource("4_weapon")
+
+[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("anchor")]
+script = ExtResource("5_camrig")
+anchor = NodePath("..")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+spring_length = 4.5
+margin = 0.25
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]
+current = true
