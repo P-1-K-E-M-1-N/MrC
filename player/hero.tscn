@@ -57,9 +57,10 @@ script = ExtResource("3_health")
 [node name="WeaponHolderComponent" type="Node" parent="."]
 script = ExtResource("4_weapon")
 
-[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("anchor")]
+[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("anchor", "facing_target")]
 script = ExtResource("5_camrig")
 anchor = NodePath("..")
+facing_target = NodePath("../Visual")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
