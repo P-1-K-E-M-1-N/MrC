@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1camrectest01"]
+[gd_scene format=3 uid="uid://bkhql1artxtto"]
 
 [ext_resource type="Script" path="res://tests/camera_recenter_test.gd" id="1_test"]
 

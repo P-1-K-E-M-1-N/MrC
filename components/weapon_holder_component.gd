@@ -17,6 +17,7 @@ signal weapon_changed(weapon: Weapon)
 
 var weapons: Array[Weapon] = []
 var current_index: int = 0
+var _attack_lock: float = 0.0
 
 
 func _ready() -> void:
@@ -33,7 +34,8 @@ func _ready() -> void:
 	input_component.weapon_prev_pressed.connect(func() -> void: _cycle(-1))
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_attack_lock = maxf(_attack_lock - delta, 0.0)
 	if input_component.attack_held and not weapons.is_empty():
 		_attack_with(weapons[current_index])
 
@@ -49,8 +51,11 @@ func _on_melee_pressed() -> void:
 
 
 func _attack_with(weapon: Weapon) -> void:
+	if _attack_lock > 0.0:
+		return
 	_face_camera_forward()
-	weapon.try_fire()
+	if weapon.try_fire():
+		_attack_lock = weapon.attack_lock
 
 
 ## Attacks commit the hero to the camera's forward direction so aiming
@@ -61,7 +66,7 @@ func _face_camera_forward() -> void:
 
 
 func _cycle(step: int) -> void:
-	if weapons.size() < 2:
+	if weapons.size() < 2 or _attack_lock > 0.0:
 		return
 	weapons[current_index].on_unequipped()
 	current_index = wrapi(current_index + step, 0, weapons.size())

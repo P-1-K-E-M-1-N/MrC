@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1blaster00001"]
+﻿[gd_scene format=3 uid="uid://bjsenhcqg50to"]
 
 [ext_resource type="Script" path="res://weapons/blaster.gd" id="1_blaster"]
-[ext_resource type="PackedScene" uid="uid://c1blasterbolt1" path="res://weapons/blaster_bolt.tscn" id="2_bolt"]
+[ext_resource type="PackedScene" uid="uid://bjsenhcpqtlno" path="res://weapons/blaster_bolt.tscn" id="2_bolt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
 albedo_color = Color(0.2, 0.45, 0.9, 1)

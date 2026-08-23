@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1wrench000001"]
+[gd_scene format=3 uid="uid://b5yihyfyg50to"]
 
 [ext_resource type="Script" path="res://weapons/wrench.gd" id="1_wrench"]
 [ext_resource type="Script" path="res://components/hitbox_component.gd" id="2_hitbox"]
@@ -25,6 +25,7 @@ script = ExtResource("1_wrench")
 display_name = "Torque Wrench"
 max_ammo = -1
 fire_interval = 0.45
+attack_lock = 0.35
 
 [node name="SwingPivot" type="Node3D" parent="."]
 

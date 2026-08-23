@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1blasterbolt1"]
+[gd_scene format=3 uid="uid://bjsenhcpqtlno"]
 
 [ext_resource type="Script" path="res://weapons/blaster_bolt.gd" id="1_bolt"]
 

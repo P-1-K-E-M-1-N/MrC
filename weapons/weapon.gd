@@ -10,6 +10,9 @@ signal ammo_changed(current: int, max_value: int)
 ## -1 means infinite ammo (melee).
 @export var max_ammo: int = -1
 @export var fire_interval: float = 0.5
+## Seconds the wielder is committed after firing — no other attacks
+## until it elapses. 0 for weapons that don't lock (guns).
+@export var attack_lock: float = 0.0
 
 var ammo: int
 var is_equipped: bool = false

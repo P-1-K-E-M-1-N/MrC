@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://c1tstplane0001"]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
-[ext_resource type="PackedScene" uid="uid://c1tgtdummy0001" path="res://enemies/target_dummy.tscn" id="2_dummy"]
+[ext_resource type="PackedScene" uid="uid://b2nw7iklf50to" path="res://enemies/target_dummy.tscn" id="2_dummy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky1"]
 sky_top_color = Color(0.25, 0.55, 0.88, 1)
