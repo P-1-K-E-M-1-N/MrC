@@ -9,6 +9,7 @@ extends StaticBody3D
 
 
 func _ready() -> void:
+	add_to_group("enemies")
 	_health.died.connect(queue_free)
 	_hurtbox.hit_received.connect(_on_hit)
 

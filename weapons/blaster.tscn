@@ -1,4 +1,4 @@
-﻿[gd_scene format=3 uid="uid://bjsenhcqg50to"]
+[gd_scene format=3 uid="uid://bjsenhcqg50to"]
 
 [ext_resource type="Script" path="res://weapons/blaster.gd" id="1_blaster"]
 [ext_resource type="PackedScene" uid="uid://bjsenhcpqtlno" path="res://weapons/blaster_bolt.tscn" id="2_bolt"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=15 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://components/input_component.gd" id="1_input"]
+[ext_resource type="Script" path="res://components/lock_on_component.gd" id="9_lockon"]
 [ext_resource type="Script" path="res://player/camera_rig.gd" id="5_camrig"]
 [ext_resource type="Script" path="res://ui/hud.gd" id="6_hud"]
 [ext_resource type="PackedScene" uid="uid://b5yihyfyg50to" path="res://weapons/wrench.tscn" id="7_wrench"]
@@ -70,6 +71,12 @@ camera_rig = NodePath("../CameraRig")
 visual = NodePath("../Visual")
 weapon_scenes = Array[PackedScene]([ExtResource("7_wrench"), ExtResource("8_blaster")])
 melee_index = 0
+
+[node name="LockOnComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "camera_rig")]
+script = ExtResource("9_lockon")
+body = NodePath("..")
+input_component = NodePath("../InputComponent")
+camera_rig = NodePath("../CameraRig")
 
 [node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("anchor", "facing_target")]
 script = ExtResource("5_camrig")
