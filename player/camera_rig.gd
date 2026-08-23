@@ -48,20 +48,13 @@ func _physics_process(delta: float) -> void:
 		_recenter_timer = recenter_delay
 
 	_recenter_timer = maxf(_recenter_timer - delta, 0.0)
-	if auto_recenter and _recenter_timer <= 0.0 and _is_anchor_running():
+	if auto_recenter and _recenter_timer <= 0.0 and facing_target != null:
 		var recenter_weight: float = 1.0 - exp(-recenter_speed * delta)
 		rotation.y = lerp_angle(rotation.y, facing_target.global_rotation.y, recenter_weight)
 
 	# Framerate-independent exponential smoothing toward the anchor.
 	var weight: float = 1.0 - exp(-follow_speed * delta)
 	global_position = global_position.lerp(anchor.global_position, weight)
-
-
-func _is_anchor_running() -> bool:
-	var hero: CharacterBody3D = anchor as CharacterBody3D
-	if hero == null or facing_target == null:
-		return false
-	return Vector2(hero.velocity.x, hero.velocity.z).length_squared() > 1.0
 
 
 func get_yaw_basis() -> Basis:
