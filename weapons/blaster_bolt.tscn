@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1blasterbolt1"]
+
+[ext_resource type="Script" path="res://weapons/blaster_bolt.gd" id="1_bolt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bolt"]
+albedo_color = Color(1, 0.85, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bolt"]
+material = SubResource("StandardMaterial3D_bolt")
+radius = 0.06
+height = 0.35
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bolt"]
+radius = 0.1
+
+[node name="BlasterBolt" type="Area3D"]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource("1_bolt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_bolt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_bolt")

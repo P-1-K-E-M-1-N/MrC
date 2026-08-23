@@ -1,6 +1,69 @@
 class_name WeaponHolderComponent
 extends Node
 
-## Stub for Phase 2: owns equipped weapon instances, switching, and fire routing.
+## Owns the hero's weapons: instancing into the hand socket, cycling,
+## and routing fire/melee intents. The melee weapon is always reachable
+## via the melee button even when a gun is equipped.
 
-@export var weapon_socket: Node3D
+signal weapon_changed(weapon: Weapon)
+
+@export var socket: Node3D
+@export var input_component: InputComponent
+@export var camera_rig: CameraRig
+@export var visual: Node3D
+@export var weapon_scenes: Array[PackedScene] = []
+## Index into weapon_scenes of the always-available melee weapon.
+@export var melee_index: int = 0
+
+var weapons: Array[Weapon] = []
+var current_index: int = 0
+
+
+func _ready() -> void:
+	for scene in weapon_scenes:
+		var weapon: Weapon = scene.instantiate()
+		socket.add_child(weapon)
+		weapon.on_unequipped()
+		weapons.append(weapon)
+	if not weapons.is_empty():
+		weapons[current_index].on_equipped()
+		weapon_changed.emit(weapons[current_index])
+	input_component.melee_pressed.connect(_on_melee_pressed)
+	input_component.weapon_next_pressed.connect(func() -> void: _cycle(1))
+	input_component.weapon_prev_pressed.connect(func() -> void: _cycle(-1))
+
+
+func _process(_delta: float) -> void:
+	if input_component.attack_held and not weapons.is_empty():
+		_attack_with(weapons[current_index])
+
+
+func current_weapon() -> Weapon:
+	return weapons[current_index] if not weapons.is_empty() else null
+
+
+func _on_melee_pressed() -> void:
+	if weapons.is_empty():
+		return
+	_attack_with(weapons[melee_index])
+
+
+func _attack_with(weapon: Weapon) -> void:
+	_face_camera_forward()
+	weapon.try_fire()
+
+
+## Attacks commit the hero to the camera's forward direction so aiming
+## follows the reticle line, not the last run direction.
+func _face_camera_forward() -> void:
+	if camera_rig != null and visual != null:
+		visual.global_rotation.y = camera_rig.global_rotation.y
+
+
+func _cycle(step: int) -> void:
+	if weapons.size() < 2:
+		return
+	weapons[current_index].on_unequipped()
+	current_index = wrapi(current_index + step, 0, weapons.size())
+	weapons[current_index].on_equipped()
+	weapon_changed.emit(weapons[current_index])

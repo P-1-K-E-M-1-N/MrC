@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1wrench000001"]
+
+[ext_resource type="Script" path="res://weapons/wrench.gd" id="1_wrench"]
+[ext_resource type="Script" path="res://components/hitbox_component.gd" id="2_hitbox"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
+albedo_color = Color(0.55, 0.58, 0.62, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_handle"]
+material = SubResource("StandardMaterial3D_handle")
+size = Vector3(0.08, 0.08, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_head"]
+albedo_color = Color(0.9, 0.62, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+material = SubResource("StandardMaterial3D_head")
+size = Vector3(0.22, 0.12, 0.16)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_swing"]
+radius = 1.0
+
+[node name="TorqueWrench" type="Node3D"]
+script = ExtResource("1_wrench")
+display_name = "Torque Wrench"
+max_ammo = -1
+fire_interval = 0.45
+
+[node name="SwingPivot" type="Node3D" parent="."]
+
+[node name="Handle" type="MeshInstance3D" parent="SwingPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+mesh = SubResource("BoxMesh_handle")
+
+[node name="Head" type="MeshInstance3D" parent="SwingPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.55)
+mesh = SubResource("BoxMesh_head")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("2_hitbox")
+damage = 25
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -0.6)
+shape = SubResource("SphereShape3D_swing")
