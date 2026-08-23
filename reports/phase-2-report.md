@@ -68,6 +68,23 @@ Launch as before: `C:/MrC/tools/godot.exe --path C:/MrC/MrC_Slice`
 - Anything broken or weird:
   - [ ] …
 
+## Tuning pass 2 (2026-08-23, from Nick's combat playtest)
+
+- **"Swing should commit me"** → attack lockout: a successful wrench swing
+  locks all attacking *and* weapon switching for 0.35 s (the swing plus a
+  beat of recovery). Guns declare no lockout, so blaster fire stays fluid.
+  Movement stays free during the swing (R&C-style); say the word if you want
+  a slow-down or root instead. Knob: `attack_lock` on each weapon scene.
+- **"Lock onto enemies with Q"** → Z-targeting: **Q** (or right-stick click)
+  locks the nearest enemy within 15 m — marked by a spinning red diamond.
+  Press **Q again** to flip to the next target; with nothing else to switch
+  to, Q unlocks. The lock drops by itself when the target dies or gets more
+  than 18 m away. While locked the camera steers onto the target (your mouse
+  still controls pitch, and attacks aim at the target automatically).
+- Housekeeping: reconciled scene IDs the editor regenerated when you opened
+  the project, and added a headless lock-on test (lock, track, cycle,
+  release) alongside the existing two.
+
 ## Next session
 
 Feel-tuning from this checklist, then **Phase 3: first real enemies**
