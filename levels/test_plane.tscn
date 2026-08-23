@@ -1,4 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://c1tstplane0001"]
+[gd_scene load_steps=15 format=3 uid="uid://c1tstplane0001"]
+
+[ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky1"]
 sky_top_color = Color(0.25, 0.55, 0.88, 1)
@@ -111,3 +113,6 @@ mesh = SubResource("BoxMesh_pillar")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar"]
 shape = SubResource("BoxShape3D_pillar")
+
+[node name="Hero" parent="." instance=ExtResource("1_hero")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 8)
