@@ -94,6 +94,20 @@ Low platform = one jump. High platform = jump + double jump.
 - Anything that felt broken or weird:
   - [ ] …
 
+## Tuning pass 1 (2026-08-23, from Nick's first playtest)
+
+- **"Heavier jump"** → gravity 1.8× → 2.0×, plus 1.3× extra gravity while
+  falling. Apex heights unchanged (jump velocity is derived from height), so
+  the same platforms are reachable — the arc is just quicker and punchier.
+- **"Pause between jumps"** → 0.18 s lockout after any jump before the air
+  jump can fire (`double_jump_delay` on MovementComponent).
+- **"Camera should snap behind me"** → auto-recenter: after 0.9 s without
+  camera input, while running, yaw eases behind the hero's facing. Mouse or
+  stick input always overrides it instantly. Toggle/tune on CameraRig
+  (`auto_recenter`, `recenter_delay`, `recenter_speed`).
+- **"Looks blocky"** → intentional greybox; art direction pass comes after
+  combat is proven. Not addressed.
+
 ## Next session (after your feedback)
 
 Feel-tuning pass from this checklist, then **Phase 2: combat core**
