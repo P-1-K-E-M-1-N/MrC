@@ -3,6 +3,9 @@ extends Node
 
 ## Drives a CharacterBody3D from movement intents: gravity, ground run, jumps.
 
+## Emitted when the air jump becomes a directional flip (direction held).
+signal air_flipped(world_direction: Vector3)
+
 @export var body: CharacterBody3D
 @export var input_component: InputComponent
 @export var camera_rig: CameraRig
@@ -22,6 +25,10 @@ extends Node
 @export var jump_buffer_time: float = 0.15
 ## Minimum time after a jump before the air jump may fire.
 @export var double_jump_delay: float = 0.18
+## Horizontal burst speed when the air jump is a directional flip.
+@export var flip_speed: float = 10.0
+## How long the flip burst outruns the normal speed cap.
+@export var flip_duration: float = 0.45
 
 @export_group("Gravity")
 @export var gravity_multiplier: float = 2.0
@@ -32,6 +39,7 @@ var _base_gravity: float = ProjectSettings.get_setting("physics/3d/default_gravi
 var _coyote_timer: float = 0.0
 var _buffer_timer: float = 0.0
 var _jump_lockout: float = 0.0
+var _flip_timer: float = 0.0
 var _air_jumps_left: int = 0
 var _jump_pressed_this_tick: bool = false
 
@@ -49,6 +57,7 @@ func _physics_process(delta: float) -> void:
 	if body.is_on_floor():
 		_coyote_timer = coyote_time
 		_air_jumps_left = air_jumps
+		_flip_timer = 0.0
 	else:
 		var gravity: float = _base_gravity * gravity_multiplier
 		if body.velocity.y < 0.0:
@@ -61,16 +70,25 @@ func _physics_process(delta: float) -> void:
 	elif _jump_pressed_this_tick and not can_ground_jump \
 			and _air_jumps_left > 0 and _jump_lockout <= 0.0:
 		_air_jumps_left -= 1
+		var flip_direction: Vector3 = _get_world_move_direction()
+		if flip_direction.length_squared() > 0.04:
+			flip_direction = flip_direction.normalized()
+			body.velocity.x = flip_direction.x * flip_speed
+			body.velocity.z = flip_direction.z * flip_speed
+			_flip_timer = flip_duration
+			air_flipped.emit(flip_direction)
 		_jump(double_jump_height)
 	_jump_pressed_this_tick = false
 	_coyote_timer = maxf(_coyote_timer - delta, 0.0)
 	_buffer_timer = maxf(_buffer_timer - delta, 0.0)
 	_jump_lockout = maxf(_jump_lockout - delta, 0.0)
+	_flip_timer = maxf(_flip_timer - delta, 0.0)
 
 	var move_direction: Vector3 = _get_world_move_direction()
 	var horizontal: Vector3 = Vector3(body.velocity.x, 0.0, body.velocity.z)
 	if move_direction != Vector3.ZERO:
-		horizontal = horizontal.move_toward(move_direction * max_speed, acceleration * delta)
+		var speed_cap: float = flip_speed if _flip_timer > 0.0 else max_speed
+		horizontal = horizontal.move_toward(move_direction * speed_cap, acceleration * delta)
 	else:
 		horizontal = horizontal.move_toward(Vector3.ZERO, deceleration * delta)
 	body.velocity.x = horizontal.x

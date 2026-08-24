@@ -188,9 +188,10 @@ melee_index = 0
 [node name="WalletComponent" type="Node" parent="."]
 script = ExtResource("12_wallet")
 
-[node name="GreyboxAnimator" type="Node" parent="." node_paths=PackedStringArray("body", "rig", "left_arm", "right_arm", "left_leg", "right_leg")]
+[node name="GreyboxAnimator" type="Node" parent="." node_paths=PackedStringArray("body", "movement_component", "rig", "left_arm", "right_arm", "left_leg", "right_leg")]
 script = ExtResource("11_anim")
 body = NodePath("..")
+movement_component = NodePath("../MovementComponent")
 rig = NodePath("../Visual/Rig")
 left_arm = NodePath("../Visual/Rig/LeftArmPivot")
 right_arm = NodePath("../Visual/Rig/RightArmPivot")
@@ -209,8 +210,8 @@ anchor = NodePath("..")
 facing_target = NodePath("../Visual")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
-spring_length = 4.5
+transform = Transform3D(1, 0, 0, 0, 0.978148, 0.207912, 0, -0.207912, 0.978148, 0, 1.7, 0)
+spring_length = 4.8
 margin = 0.25
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]

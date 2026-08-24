@@ -6,6 +6,7 @@ extends Node
 ## airborne. No AnimationPlayer — pure code, tunable via exports.
 
 @export var body: CharacterBody3D
+@export var movement_component: MovementComponent
 @export var rig: Node3D
 @export var left_arm: Node3D
 @export var right_arm: Node3D
@@ -20,10 +21,33 @@ extends Node
 var _phase: float = 0.0
 var _rig_base_y: float = 0.0
 var _air_blend: float = 0.0
+var _flip_tween: Tween
 
 
 func _ready() -> void:
 	_rig_base_y = rig.position.y
+	if movement_component != null:
+		movement_component.air_flipped.connect(_on_air_flipped)
+
+
+## Directional flip: sideways input barrel-rolls the rig, forward/back
+## input front/back-flips it. One full turn, then rotation resets.
+func _on_air_flipped(world_direction: Vector3) -> void:
+	if _flip_tween != null and _flip_tween.is_valid():
+		_flip_tween.kill()
+	rig.rotation.x = 0.0
+	rig.rotation.z = 0.0
+	var side: float = world_direction.dot(rig.global_transform.basis.x)
+	var forward: float = world_direction.dot(-rig.global_transform.basis.z)
+	_flip_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if absf(side) > absf(forward):
+		_flip_tween.tween_property(rig, "rotation:z", -TAU * signf(side), 0.55).from(0.0)
+	else:
+		_flip_tween.tween_property(rig, "rotation:x", -TAU * signf(forward), 0.55).from(0.0)
+	_flip_tween.tween_callback(func() -> void:
+		rig.rotation.x = 0.0
+		rig.rotation.z = 0.0
+	)
 
 
 func _process(delta: float) -> void:
