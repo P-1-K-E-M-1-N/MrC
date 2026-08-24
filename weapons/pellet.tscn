@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://weapons/blaster_bolt.gd" id="1_bolt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pellet"]
+albedo_color = Color(0.55, 1, 0.35, 1)
+emission_enabled = true
+emission = Color(0.45, 0.95, 0.25, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="SphereMesh" id="SphereMesh_pellet"]
+material = SubResource("StandardMaterial3D_pellet")
+radius = 0.07
+height = 0.14
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pellet"]
+radius = 0.09
+
+[node name="Pellet" type="Area3D"]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource("1_bolt")
+speed = 24.0
+damage = 8
+lifetime = 0.5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_pellet")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_pellet")
