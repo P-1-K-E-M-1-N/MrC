@@ -29,6 +29,10 @@ background_mode = 2
 sky = SubResource("Sky_sky")
 ambient_light_source = 3
 tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.1
+glow_hdr_threshold = 0.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.4, 0.45, 0.55, 1)
