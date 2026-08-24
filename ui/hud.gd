@@ -22,6 +22,12 @@ func _process(_delta: float) -> void:
 		ammo_text = "inf"
 	else:
 		ammo_text = "%d / %d" % [weapon.ammo, weapon.max_ammo]
-	_label.text = "HP %d\n%s  [%s]\n%s" % [
-		health_component.current_health, weapon.display_name, ammo_text, bolts_line
+	var strip: String = ""
+	for i in weapon_holder.weapons.size():
+		var entry: String = "%d %s" % [i + 1, weapon_holder.weapons[i].display_name]
+		if i == weapon_holder.current_index:
+			entry = "[%s]" % entry
+		strip += entry + "   "
+	_label.text = "HP %d\n%s  [%s]\n%s\n%s" % [
+		health_component.current_health, weapon.display_name, ammo_text, bolts_line, strip
 	]
