@@ -1,0 +1,46 @@
+[gd_resource type="BehaviorTree" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://enemies/tasks/bt_target_in_range.gd" id="1_range"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_flee_target.gd" id="2_flee"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_ranged_volley.gd" id="3_volley"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_chase_target.gd" id="4_chase"]
+
+[sub_resource type="BTCondition" id="BTCondition_tooclose"]
+script = ExtResource("1_range")
+target_var = &"player"
+range = 4.0
+
+[sub_resource type="BTAction" id="BTAction_flee"]
+script = ExtResource("2_flee")
+target_var = &"player"
+safe_distance = 6.0
+
+[sub_resource type="BTSequence" id="BTSequence_retreat"]
+custom_name = "Back off when crowded"
+children = [SubResource("BTCondition_tooclose"), SubResource("BTAction_flee")]
+
+[sub_resource type="BTCondition" id="BTCondition_firerange"]
+script = ExtResource("1_range")
+target_var = &"player"
+range = 13.0
+
+[sub_resource type="BTAction" id="BTAction_volley"]
+script = ExtResource("3_volley")
+target_var = &"player"
+windup = 0.4
+cooldown = 1.2
+
+[sub_resource type="BTSequence" id="BTSequence_shoot"]
+custom_name = "Shoot in range"
+children = [SubResource("BTCondition_firerange"), SubResource("BTAction_volley")]
+
+[sub_resource type="BTAction" id="BTAction_approach"]
+script = ExtResource("4_chase")
+target_var = &"player"
+stop_distance = 10.0
+
+[sub_resource type="BTSelector" id="BTSelector_root"]
+children = [SubResource("BTSequence_retreat"), SubResource("BTSequence_shoot"), SubResource("BTAction_approach")]
+
+[resource]
+root_task = SubResource("BTSelector_root")

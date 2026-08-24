@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://enemies/shooter.gd" id="1_shooter"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="2_health"]
+[ext_resource type="Script" path="res://components/hurtbox_component.gd" id="3_hurtbox"]
+[ext_resource type="BehaviorTree" path="res://enemies/shooter.tres" id="4_bt"]
+[ext_resource type="PackedScene" path="res://weapons/enemy_bolt.tscn" id="5_bolt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_shooter"]
+radius = 0.4
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shooter"]
+albedo_color = Color(0.55, 0.25, 0.8, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_shooter"]
+material = SubResource("StandardMaterial3D_shooter")
+radius = 0.4
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nose"]
+albedo_color = Color(0.2, 0.2, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nose"]
+material = SubResource("StandardMaterial3D_nose")
+size = Vector3(0.18, 0.18, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gun"]
+material = SubResource("StandardMaterial3D_nose")
+size = Vector3(0.12, 0.12, 0.45)
+
+[node name="Shooter" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_shooter")
+move_speed = 3.5
+bolt_scene = ExtResource("5_bolt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_shooter")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("CapsuleMesh_shooter")
+
+[node name="NoseMarker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.45)
+mesh = SubResource("BoxMesh_nose")
+
+[node name="GunMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, -0.35)
+mesh = SubResource("BoxMesh_gun")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, -0.6)
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 30
+
+[node name="HurtboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_hurtbox")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_shooter")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("4_bt")
