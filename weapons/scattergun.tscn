@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://weapons/scattergun.gd" id="1_scatter"]
 [ext_resource type="PackedScene" path="res://weapons/pellet.tscn" id="2_pellet"]
+[ext_resource type="PackedScene" path="res://vfx/muzzle_flash.tscn" id="3_mflash"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
 albedo_color = Color(0.3, 0.65, 0.3, 1)
@@ -32,3 +33,7 @@ mesh = SubResource("BoxMesh_barrel")
 
 [node name="Muzzle" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.55)
+
+[node name="MuzzleFlash" parent="." node_paths=PackedStringArray("weapon") instance=ExtResource("3_mflash")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.55)
+weapon = NodePath("..")
