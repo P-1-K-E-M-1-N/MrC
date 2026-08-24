@@ -1,0 +1,22 @@
+[gd_resource type="BehaviorTree" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://enemies/tasks/bt_target_in_range.gd" id="1_range"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_ranged_volley.gd" id="2_volley"]
+
+[sub_resource type="BTCondition" id="BTCondition_firerange"]
+script = ExtResource("1_range")
+target_var = &"player"
+range = 18.0
+
+[sub_resource type="BTAction" id="BTAction_volley"]
+script = ExtResource("2_volley")
+target_var = &"player"
+windup = 0.3
+cooldown = 0.8
+
+[sub_resource type="BTSequence" id="BTSequence_root"]
+custom_name = "Shoot anything in range"
+children = [SubResource("BTCondition_firerange"), SubResource("BTAction_volley")]
+
+[resource]
+root_task = SubResource("BTSequence_root")

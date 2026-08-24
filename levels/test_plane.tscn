@@ -1,10 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://c1tstplane0001"]
+[gd_scene load_steps=21 format=3 uid="uid://c1tstplane0001"]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" uid="uid://b2nw7iklf50to" path="res://enemies/target_dummy.tscn" id="2_dummy"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="3_rusher"]
 [ext_resource type="PackedScene" path="res://enemies/shooter.tscn" id="4_shooter"]
 [ext_resource type="PackedScene" path="res://pickups/health_pickup.tscn" id="5_pickup"]
+[ext_resource type="PackedScene" path="res://enemies/turret.tscn" id="6_turret"]
+[ext_resource type="PackedScene" path="res://enemies/swarmling.tscn" id="7_swarm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky1"]
 sky_top_color = Color(0.25, 0.55, 0.88, 1)
@@ -138,3 +140,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.9, 5)
 
 [node name="HealthPickup2" parent="." instance=ExtResource("5_pickup")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.9, -8)
+
+[node name="Turret1" parent="." instance=ExtResource("6_turret")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -22)
+
+[node name="Swarm1" parent="." instance=ExtResource("7_swarm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 4)
+
+[node name="Swarm2" parent="." instance=ExtResource("7_swarm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 5)
+
+[node name="Swarm3" parent="." instance=ExtResource("7_swarm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 7)
+
+[node name="Swarm4" parent="." instance=ExtResource("7_swarm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 3)
+
+[node name="Swarm5" parent="." instance=ExtResource("7_swarm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 6)
