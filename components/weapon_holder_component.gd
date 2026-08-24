@@ -30,6 +30,7 @@ func _ready() -> void:
 		weapons[current_index].on_equipped()
 		weapon_changed.emit(weapons[current_index])
 	input_component.melee_pressed.connect(_on_melee_pressed)
+	input_component.melee_throw_pressed.connect(_on_melee_throw_pressed)
 	input_component.weapon_next_pressed.connect(func() -> void: _cycle(1))
 	input_component.weapon_prev_pressed.connect(func() -> void: _cycle(-1))
 
@@ -48,6 +49,17 @@ func _on_melee_pressed() -> void:
 	if weapons.is_empty():
 		return
 	_attack_with(weapons[melee_index])
+
+
+func _on_melee_throw_pressed() -> void:
+	if weapons.is_empty() or _attack_lock > 0.0:
+		return
+	var wrench: TorqueWrench = weapons[melee_index] as TorqueWrench
+	if wrench == null:
+		return
+	_face_camera_forward()
+	if wrench.try_throw(visual):
+		_attack_lock = 0.2
 
 
 func _attack_with(weapon: Weapon) -> void:

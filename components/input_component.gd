@@ -7,6 +7,7 @@ extends Node
 signal jump_pressed
 signal jump_released
 signal melee_pressed
+signal melee_throw_pressed
 signal weapon_next_pressed
 signal weapon_prev_pressed
 signal lock_on_pressed
@@ -31,6 +32,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		jump_released.emit()
 	elif event.is_action_pressed("melee"):
 		melee_pressed.emit()
+	elif event.is_action_pressed("melee_throw"):
+		melee_throw_pressed.emit()
 	elif event.is_action_pressed("weapon_next"):
 		weapon_next_pressed.emit()
 	elif event.is_action_pressed("weapon_prev"):
