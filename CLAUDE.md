@@ -36,6 +36,10 @@ Components communicate through **signals and exported node references**, never
 by reaching up the tree with `get_parent()` chains. A second character or a
 companion must be buildable by recomposing existing components.
 
+`systems/` holds autoload singletons (registered in project.godot) — currently
+`GameStats` (run timer, deaths, kills, bolts collected). Keep autoloads rare
+and stateless-ish; gameplay logic stays in components.
+
 ## Collision layers (bits in parentheses)
 
 1 world (1) · 2 player (2) · 3 enemy (4) · 4 enemy_hurtbox (8) ·

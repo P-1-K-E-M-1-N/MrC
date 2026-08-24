@@ -10,6 +10,7 @@ var bolts: int = 0
 
 func add(amount: int) -> void:
 	bolts += amount
+	GameStats.bolts_collected += amount
 	bolts_changed.emit(bolts)
 
 

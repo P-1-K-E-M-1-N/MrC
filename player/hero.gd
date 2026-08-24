@@ -10,6 +10,7 @@ const FALL_LIMIT_Y: float = -20.0
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var _visual: Node3D = $Visual
+@onready var _camera_rig: CameraRig = $CameraRig
 
 var _spawn_transform: Transform3D
 
@@ -32,12 +33,14 @@ func set_spawn(spawn: Transform3D) -> void:
 
 
 func _respawn() -> void:
+	GameStats.deaths += 1
 	global_transform = _spawn_transform
 	velocity = Vector3.ZERO
 	_health.reset()
 
 
 func _on_hit(_amount: int) -> void:
+	_camera_rig.add_trauma(0.45)
 	_visual.scale = Vector3(1.12, 0.92, 1.12)
 	var tween: Tween = create_tween()
 	tween.tween_property(_visual, "scale", Vector3.ONE, 0.18)

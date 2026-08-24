@@ -19,6 +19,7 @@ extends CharacterBody3D
 
 var _base_gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _flash_mesh: MeshInstance3D
+var _stagger_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -37,6 +38,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if not is_on_floor():
 		velocity.y -= _base_gravity * delta
+	_stagger_timer = maxf(_stagger_timer - delta, 0.0)
 	var flat_speed: Vector2 = Vector2(velocity.x, velocity.z)
 	if flat_speed.length_squared() > 0.25:
 		var target_yaw: float = atan2(-velocity.x, -velocity.z)
@@ -46,15 +48,25 @@ func _physics_process(delta: float) -> void:
 
 
 ## Steering API used by BT tasks: set horizontal velocity toward/away
-## from points; gravity and facing are handled here.
+## from points; gravity and facing are handled here. Knockback stagger
+## overrides steering so hits actually move the enemy.
 func steer(direction: Vector3, speed: float) -> void:
+	if _stagger_timer > 0.0:
+		return
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 
 
 func stop() -> void:
+	if _stagger_timer > 0.0:
+		return
 	velocity.x = 0.0
 	velocity.z = 0.0
+
+
+func apply_knockback(impulse: Vector3) -> void:
+	velocity += impulse
+	_stagger_timer = 0.25
 
 
 func flat_direction_to(point: Vector3) -> Vector3:
@@ -79,6 +91,7 @@ func face_point(point: Vector3, delta: float) -> void:
 
 
 func _on_died() -> void:
+	GameStats.enemies_killed += 1
 	if bolt_drop_scene != null:
 		var count: int = randi_range(min_bolt_drop, max_bolt_drop)
 		for i in count:

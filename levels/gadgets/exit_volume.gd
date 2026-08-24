@@ -1,9 +1,10 @@
 class_name ExitVolume
 extends Area3D
 
-## End of the slice: stepping in shows the completion overlay.
+## End of the slice: stepping in shows the completion overlay with run stats.
 
 @onready var _overlay: CanvasLayer = $Overlay
+@onready var _label: Label = $Overlay/Label
 
 
 func _ready() -> void:
@@ -12,5 +13,10 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if body is Hero:
-		_overlay.visible = true
+	if not body is Hero:
+		return
+	_label.text = "SLICE COMPLETE!\n\nTime %s    Deaths %d\nEnemies defeated %d    Bolts collected %d\n\nThanks for playing, Nick." % [
+		GameStats.format_run_time(), GameStats.deaths,
+		GameStats.enemies_killed, GameStats.bolts_collected,
+	]
+	_overlay.visible = true
