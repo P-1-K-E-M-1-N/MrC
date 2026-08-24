@@ -38,6 +38,7 @@ collision_mask = 7
 script = ExtResource("1_base")
 move_speed = 6.5
 turn_speed = 14.0
+aim_height = 0.4
 bolt_drop_scene = ExtResource("6_boltdrop")
 min_bolt_drop = 1
 max_bolt_drop = 2

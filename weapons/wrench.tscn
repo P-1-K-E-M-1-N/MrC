@@ -19,7 +19,7 @@ material = SubResource("StandardMaterial3D_head")
 size = Vector3(0.22, 0.12, 0.16)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_swing"]
-radius = 1.0
+radius = 1.15
 
 [node name="TorqueWrench" type="Node3D"]
 script = ExtResource("1_wrench")
@@ -46,5 +46,5 @@ script = ExtResource("2_hitbox")
 damage = 25
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -0.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, -0.35, -0.6)
 shape = SubResource("SphereShape3D_swing")

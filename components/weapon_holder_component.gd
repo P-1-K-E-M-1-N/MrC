@@ -23,6 +23,7 @@ signal weapon_changed(weapon: Weapon)
 var weapons: Array[Weapon] = []
 var current_index: int = 0
 var _attack_lock: float = 0.0
+var _aim_point: Vector3 = Vector3.INF
 
 
 func _ready() -> void:
@@ -38,6 +39,7 @@ func _ready() -> void:
 	input_component.melee_throw_pressed.connect(_on_melee_throw_pressed)
 	input_component.weapon_next_pressed.connect(func() -> void: _cycle(1))
 	input_component.weapon_prev_pressed.connect(func() -> void: _cycle(-1))
+	input_component.weapon_selected.connect(_on_weapon_selected)
 
 
 func _process(delta: float) -> void:
@@ -63,6 +65,7 @@ func _on_melee_throw_pressed() -> void:
 	if wrench == null:
 		return
 	_aim_before_attack()
+	wrench.aim_point = _aim_point
 	if wrench.try_throw(visual):
 		_attack_lock = 0.2
 
@@ -71,6 +74,7 @@ func _attack_with(weapon: Weapon) -> void:
 	if _attack_lock > 0.0:
 		return
 	_aim_before_attack()
+	weapon.aim_point = _aim_point
 	if weapon.try_fire():
 		_attack_lock = weapon.attack_lock
 
@@ -80,14 +84,25 @@ func _attack_with(weapon: Weapon) -> void:
 ## with no target, the run facing is kept — the camera never has to be
 ## aimed precisely to fight.
 func _aim_before_attack() -> void:
+	_aim_point = Vector3.INF
 	if lock_on != null and lock_on.is_locked():
+		_aim_point = _target_aim_point(lock_on.target)
 		_face_point(lock_on.target.global_position)
 		return
 	var soft_target: Node3D = _find_soft_target()
 	if soft_target != null:
+		_aim_point = _target_aim_point(soft_target)
 		_face_point(soft_target.global_position)
 	elif input_component.move_vector == Vector2.ZERO:
 		_face_camera_forward()
+
+
+## Chest height of a target: enemies declare aim_height; anything that
+## doesn't gets a humanoid default.
+func _target_aim_point(target: Node3D) -> Vector3:
+	var height: Variant = target.get("aim_height")
+	var offset: float = height if height is float else 0.9
+	return target.global_position + Vector3(0, offset, 0)
 
 
 func _face_point(point: Vector3) -> void:
@@ -128,9 +143,20 @@ func _face_camera_forward() -> void:
 
 
 func _cycle(step: int) -> void:
-	if weapons.size() < 2 or _attack_lock > 0.0:
+	if weapons.size() < 2:
+		return
+	_equip(wrapi(current_index + step, 0, weapons.size()))
+
+
+func _on_weapon_selected(index: int) -> void:
+	if index < weapons.size():
+		_equip(index)
+
+
+func _equip(index: int) -> void:
+	if index == current_index or _attack_lock > 0.0:
 		return
 	weapons[current_index].on_unequipped()
-	current_index = wrapi(current_index + step, 0, weapons.size())
+	current_index = index
 	weapons[current_index].on_equipped()
 	weapon_changed.emit(weapons[current_index])

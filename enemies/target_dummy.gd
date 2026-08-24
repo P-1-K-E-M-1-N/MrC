@@ -3,6 +3,9 @@ extends StaticBody3D
 
 ## Greybox punching bag: flashes a scale punch on hit, disappears at 0 HP.
 
+## Where player weapons aim on this dummy.
+@export var aim_height: float = 0.95
+
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _hurtbox: HurtboxComponent = $HurtboxComponent
 @onready var _mesh: MeshInstance3D = $MeshInstance3D

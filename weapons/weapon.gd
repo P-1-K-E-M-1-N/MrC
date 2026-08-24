@@ -16,6 +16,9 @@ signal ammo_changed(current: int, max_value: int)
 
 var ammo: int
 var is_equipped: bool = false
+## World point to aim at, set by the holder before each attack.
+## Vector3.INF means no target: fire flat along the wielder's facing.
+var aim_point: Vector3 = Vector3.INF
 var _cooldown: float = 0.0
 
 
@@ -55,6 +58,14 @@ func get_aim_direction() -> Vector3:
 	var forward: Vector3 = -global_transform.basis.z
 	forward.y = 0.0
 	return forward.normalized()
+
+
+## Full-3D aim from an origin: pitches at the current target (so shots
+## reach short enemies) or falls back to the flat facing direction.
+func get_aim_direction_from(origin: Vector3) -> Vector3:
+	if aim_point.is_finite():
+		return (aim_point - origin).normalized()
+	return get_aim_direction()
 
 
 func _fire() -> void:

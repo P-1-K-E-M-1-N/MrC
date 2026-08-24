@@ -8,6 +8,8 @@ extends CharacterBody3D
 
 @export var move_speed: float = 4.0
 @export var turn_speed: float = 10.0
+## Where player weapons aim on this enemy (chest height above the feet).
+@export var aim_height: float = 0.9
 @export var bolt_drop_scene: PackedScene
 @export var min_bolt_drop: int = 3
 @export var max_bolt_drop: int = 6

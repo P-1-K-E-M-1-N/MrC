@@ -26,7 +26,7 @@ func try_throw(wielder: Node3D) -> bool:
 	is_thrown = true
 	visible = false
 	var projectile: WrenchProjectile = projectile_scene.instantiate()
-	projectile.setup(wielder, get_aim_direction())
+	projectile.setup(wielder, get_aim_direction_from(global_position))
 	projectile.position = global_position
 	projectile.returned.connect(_on_projectile_returned)
 	get_tree().current_scene.add_child(projectile)

@@ -12,7 +12,7 @@ extends Weapon
 
 
 func _fire() -> void:
-	var aim: Vector3 = get_aim_direction()
+	var aim: Vector3 = get_aim_direction_from(_muzzle.global_position)
 	var right: Vector3 = aim.cross(Vector3.UP).normalized()
 	for i in pellet_count:
 		var direction: Vector3 = aim.rotated(
