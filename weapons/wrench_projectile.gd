@@ -55,4 +55,4 @@ func _on_area_entered(area: Area3D) -> void:
 	if hurtbox == null or hurtbox in _already_hit:
 		return
 	_already_hit.append(hurtbox)
-	hurtbox.receive_hit(damage)
+	hurtbox.receive_hit(damage, global_position)

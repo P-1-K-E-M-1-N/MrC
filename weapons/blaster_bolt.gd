@@ -23,7 +23,7 @@ func _on_area_entered(area: Area3D) -> void:
 	var hurtbox: HurtboxComponent = area as HurtboxComponent
 	if hurtbox == null:
 		return
-	hurtbox.receive_hit(damage)
+	hurtbox.receive_hit(damage, global_position)
 	queue_free()
 
 

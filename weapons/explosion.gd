@@ -19,7 +19,12 @@ func _detonate() -> void:
 	for area in get_overlapping_areas():
 		var hurtbox: HurtboxComponent = area as HurtboxComponent
 		if hurtbox != null:
-			hurtbox.receive_hit(damage)
+			hurtbox.receive_hit(damage, global_position)
+	var player: Node3D = get_tree().get_first_node_in_group("player") as Node3D
+	if player != null and player.global_position.distance_to(global_position) < 9.0:
+		var rig: CameraRig = player.get_node_or_null("CameraRig")
+		if rig != null:
+			rig.add_trauma(0.4)
 	_mesh.scale = Vector3.ONE * 0.2
 	var tween: Tween = create_tween()
 	tween.tween_property(_mesh, "scale", Vector3.ONE, 0.2)

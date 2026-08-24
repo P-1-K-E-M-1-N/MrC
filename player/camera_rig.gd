@@ -21,6 +21,8 @@ extends Node3D
 @export var recenter_speed: float = 3.0
 ## How hard the yaw tracks a lock-on target.
 @export var lock_track_speed: float = 8.0
+## Screen shake amplitude at full trauma.
+@export var shake_magnitude: float = 0.3
 
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 
@@ -28,11 +30,19 @@ extends Node3D
 var lock_target: Node3D = null
 
 var _recenter_timer: float = 0.0
+var _trauma: float = 0.0
+var _spring_base: Vector3
 
 
 func _ready() -> void:
 	top_level = true
 	global_position = anchor.global_position
+	_spring_base = _spring_arm.position
+
+
+## Feed the shake meter (hero hits, nearby blasts). Clamped, decays fast.
+func add_trauma(amount: float) -> void:
+	_trauma = minf(_trauma + amount, 1.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -71,6 +81,12 @@ func _physics_process(delta: float) -> void:
 	# Framerate-independent exponential smoothing toward the anchor.
 	var weight: float = 1.0 - exp(-follow_speed * delta)
 	global_position = global_position.lerp(anchor.global_position, weight)
+
+	_trauma = maxf(_trauma - delta * 1.8, 0.0)
+	var shake: float = _trauma * _trauma * shake_magnitude
+	_spring_arm.position = _spring_base + Vector3(
+		randf_range(-1.0, 1.0) * shake, randf_range(-1.0, 1.0) * shake, 0.0
+	)
 
 
 func _is_locked() -> bool:
