@@ -11,6 +11,7 @@ signal melee_throw_pressed
 signal weapon_next_pressed
 signal weapon_prev_pressed
 signal lock_on_pressed
+signal interact_pressed
 
 var move_vector: Vector2 = Vector2.ZERO
 var attack_held: bool = false
@@ -40,6 +41,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		weapon_prev_pressed.emit()
 	elif event.is_action_pressed("lock_on"):
 		lock_on_pressed.emit()
+	elif event.is_action_pressed("interact"):
+		interact_pressed.emit()
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event is InputEventMouseButton and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:

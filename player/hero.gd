@@ -26,6 +26,11 @@ func _physics_process(_delta: float) -> void:
 		_respawn()
 
 
+## Checkpoints call this to move the respawn point forward.
+func set_spawn(spawn: Transform3D) -> void:
+	_spawn_transform = spawn
+
+
 func _respawn() -> void:
 	global_transform = _spawn_transform
 	velocity = Vector3.ZERO

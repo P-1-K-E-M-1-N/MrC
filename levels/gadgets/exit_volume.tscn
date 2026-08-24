@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://levels/gadgets/exit_volume.gd" id="1_exit"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exit"]
+albedo_color = Color(0.9, 0.85, 0.2, 1)
+emission_enabled = true
+emission = Color(0.85, 0.75, 0.1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_exit"]
+material = SubResource("StandardMaterial3D_exit")
+inner_radius = 1.5
+outer_radius = 1.9
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_exit"]
+radius = 1.8
+height = 3
+
+[node name="ExitVolume" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_exit")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 1.8, 0)
+mesh = SubResource("TorusMesh_exit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CylinderShape3D_exit")
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="Overlay"]
+anchor_left = 0.5
+anchor_top = 0.35
+anchor_right = 0.5
+anchor_bottom = 0.35
+offset_left = -400.0
+offset_right = 400.0
+offset_top = -60.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+text = "SLICE COMPLETE!
+Thanks for playing, Nick."
