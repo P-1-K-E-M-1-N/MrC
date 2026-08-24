@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://vfx/one_shot_vfx.gd" id="1_vfx"]
+
+[sub_resource type="Gradient" id="Gradient_puff"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 0.96, 0.85, 0.9, 0.85, 0.8, 0.75, 0.55, 0.7, 0.68, 0.66, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_puff"]
+gradient = SubResource("Gradient_puff")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_puff"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 1.2
+initial_velocity_max = 2.6
+gravity = Vector3(0, 0.5, 0)
+damping_min = 1.5
+damping_max = 3.0
+scale_min = 0.9
+scale_max = 1.7
+color_ramp = SubResource("GradientTexture1D_puff")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puff"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_puff"]
+material = SubResource("StandardMaterial3D_puff")
+size = Vector2(0.55, 0.55)
+
+[sub_resource type="Gradient" id="Gradient_shard"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 0.75, 0.2, 1, 1, 0.55, 0.1, 1, 0.9, 0.35, 0.05, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_shard"]
+gradient = SubResource("Gradient_shard")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_shard"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 7.5
+gravity = Vector3(0, -20, 0)
+scale_min = 0.6
+scale_max = 1.3
+color_ramp = SubResource("GradientTexture1D_shard")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shard"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_shard"]
+material = SubResource("StandardMaterial3D_shard")
+size = Vector2(0.18, 0.18)
+
+[node name="DeathPoof" type="Node3D"]
+script = ExtResource("1_vfx")
+lifetime = 1.0
+light_fade = 0.2
+
+[node name="Puff" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 9
+lifetime = 0.55
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_puff")
+draw_pass_1 = SubResource("QuadMesh_puff")
+
+[node name="Shards" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_shard")
+draw_pass_1 = SubResource("QuadMesh_shard")
+
+[node name="Flash" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.8, 0.35, 1)
+light_energy = 3.5
+omni_range = 4.5

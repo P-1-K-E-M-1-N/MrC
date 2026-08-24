@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://enemies/shooter.gd" id="1_shooter"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="2_health"]
@@ -6,6 +6,7 @@
 [ext_resource type="BehaviorTree" path="res://enemies/turret.tres" id="4_bt"]
 [ext_resource type="PackedScene" path="res://weapons/enemy_bolt.tscn" id="5_bolt"]
 [ext_resource type="PackedScene" path="res://pickups/bolt_pickup.tscn" id="6_boltdrop"]
+[ext_resource type="Script" path="res://vfx/damage_vfx.gd" id="7_dmgvfx"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_turret"]
 radius = 0.5
@@ -77,3 +78,10 @@ shape = SubResource("CylinderShape3D_turret")
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
 behavior_tree = ExtResource("4_bt")
+
+[node name="DamageVfx" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "health")]
+script = ExtResource("7_dmgvfx")
+hurtbox = NodePath("../HurtboxComponent")
+health = NodePath("../HealthComponent")
+spark_height = 1.0
+poof_scale = 1.2

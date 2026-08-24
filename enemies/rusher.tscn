@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://enemies/enemy_base.gd" id="1_base"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="2_health"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://components/hitbox_component.gd" id="4_hitbox"]
 [ext_resource type="BehaviorTree" path="res://enemies/rusher.tres" id="5_bt"]
 [ext_resource type="PackedScene" path="res://pickups/bolt_pickup.tscn" id="6_boltdrop"]
+[ext_resource type="Script" path="res://vfx/damage_vfx.gd" id="7_dmgvfx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rusher"]
 radius = 0.4
@@ -74,3 +75,8 @@ shape = SubResource("SphereShape3D_melee")
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
 behavior_tree = ExtResource("5_bt")
+
+[node name="DamageVfx" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "health")]
+script = ExtResource("7_dmgvfx")
+hurtbox = NodePath("../HurtboxComponent")
+health = NodePath("../HealthComponent")

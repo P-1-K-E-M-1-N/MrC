@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=32 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://player/hero.gd" id="0_hero"]
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="15_pause"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://components/movement_component.gd" id="2_move"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="3_health"]
 [ext_resource type="Script" path="res://components/weapon_holder_component.gd" id="4_weapon"]
+[ext_resource type="Script" path="res://vfx/damage_vfx.gd" id="16_dmgvfx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hero"]
 radius = 0.45
@@ -189,6 +190,13 @@ melee_index = 0
 
 [node name="WalletComponent" type="Node" parent="."]
 script = ExtResource("12_wallet")
+
+[node name="DamageVfx" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "health")]
+script = ExtResource("16_dmgvfx")
+hurtbox = NodePath("../HurtboxComponent")
+health = NodePath("../HealthComponent")
+spark_height = 1.1
+poof_on_death = false
 
 [node name="GreyboxAnimator" type="Node" parent="." node_paths=PackedStringArray("body", "movement_component", "rig", "left_arm", "right_arm", "left_leg", "right_leg")]
 script = ExtResource("11_anim")
