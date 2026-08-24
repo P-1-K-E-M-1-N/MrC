@@ -8,6 +8,9 @@ extends StaticBody3D
 @export var bolt_drop_scene: PackedScene
 @export var min_bolt_drop: int = 2
 @export var max_bolt_drop: int = 4
+## Chance to drop an ammo pickup INSTEAD of bolts.
+@export var ammo_drop_scene: PackedScene
+@export var ammo_drop_chance: float = 0.3
 
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _mesh: MeshInstance3D = $MeshInstance3D
@@ -25,7 +28,11 @@ func _on_hit(_amount: int) -> void:
 
 
 func _on_broken() -> void:
-	if bolt_drop_scene != null:
+	if ammo_drop_scene != null and randf() < ammo_drop_chance:
+		var ammo: AmmoPickup = ammo_drop_scene.instantiate()
+		ammo.position = global_position + Vector3(0, 0.6, 0)
+		get_tree().current_scene.add_child(ammo)
+	elif bolt_drop_scene != null:
 		for i in randi_range(min_bolt_drop, max_bolt_drop):
 			var bolt: BoltPickup = bolt_drop_scene.instantiate()
 			bolt.position = global_position + Vector3(

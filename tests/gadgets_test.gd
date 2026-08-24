@@ -41,6 +41,8 @@ func _ready() -> void:
 
 	_crate = CRATE_SCENE.instantiate()
 	_crate.position = Vector3(30, 0, 0)
+	# Force the bolt branch — ammo drops are covered by impact_test.
+	_crate.ammo_drop_chance = 0.0
 	add_child(_crate)
 
 	var checkpoint: Checkpoint = CHECK_SCENE.instantiate()

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://pickups/ammo_pickup.gd" id="1_ammo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ammo"]
+albedo_color = Color(0.2, 0.8, 0.95, 1)
+emission_enabled = true
+emission = Color(0.1, 0.7, 0.9, 1)
+emission_energy_multiplier = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ammo"]
+material = SubResource("StandardMaterial3D_ammo")
+top_radius = 0.14
+bottom_radius = 0.14
+height = 0.45
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ammo"]
+radius = 0.7
+
+[node name="AmmoPickup" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_ammo")
+
+[node name="CanA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0, 0)
+mesh = SubResource("CylinderMesh_ammo")
+
+[node name="CanB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0, 0.08)
+mesh = SubResource("CylinderMesh_ammo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ammo")

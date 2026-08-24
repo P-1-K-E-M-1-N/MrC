@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3]
+[gd_scene load_steps=44 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://levels/gadgets/exit_volume.tscn" id="11_exit"]
 [ext_resource type="Script" path="res://levels/gadgets/arena.gd" id="12_arena"]
 [ext_resource type="PackedScene" path="res://pickups/bolt_pickup.tscn" id="13_bolt"]
+[ext_resource type="PackedScene" path="res://pickups/ammo_pickup.tscn" id="14_ammo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.3, 0.5, 0.9, 1)
@@ -293,6 +294,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -88)
 
 [node name="HealthB1" parent="." instance=ExtResource("6_health")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.9, -74)
+
+[node name="AmmoB1" parent="." instance=ExtResource("14_ammo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3.9, -74)
+
+[node name="AmmoC1" parent="." instance=ExtResource("14_ammo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, -112)
 
 [node name="CrateB1" parent="." instance=ExtResource("8_crate")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, -99)
