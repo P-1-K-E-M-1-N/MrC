@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://weapons/explosion.gd" id="1_boom"]
+[ext_resource type="PackedScene" path="res://vfx/blast_ring.tscn" id="2_ring"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_boom"]
 albedo_color = Color(1, 0.55, 0.1, 0.7)
@@ -27,3 +28,5 @@ mesh = SubResource("SphereMesh_boom")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_boom")
+
+[node name="BlastRing" parent="." instance=ExtResource("2_ring")]
