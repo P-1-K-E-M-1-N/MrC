@@ -11,9 +11,14 @@ signal weapon_changed(weapon: Weapon)
 @export var input_component: InputComponent
 @export var camera_rig: CameraRig
 @export var visual: Node3D
+@export var lock_on: LockOnComponent
 @export var weapon_scenes: Array[PackedScene] = []
 ## Index into weapon_scenes of the always-available melee weapon.
 @export var melee_index: int = 0
+
+@export_group("Aim assist")
+@export var aim_assist_range: float = 15.0
+@export var aim_assist_angle_degrees: float = 75.0
 
 var weapons: Array[Weapon] = []
 var current_index: int = 0
@@ -57,7 +62,7 @@ func _on_melee_throw_pressed() -> void:
 	var wrench: TorqueWrench = weapons[melee_index] as TorqueWrench
 	if wrench == null:
 		return
-	_face_camera_forward()
+	_aim_before_attack()
 	if wrench.try_throw(visual):
 		_attack_lock = 0.2
 
@@ -65,13 +70,58 @@ func _on_melee_throw_pressed() -> void:
 func _attack_with(weapon: Weapon) -> void:
 	if _attack_lock > 0.0:
 		return
-	_face_camera_forward()
+	_aim_before_attack()
 	if weapon.try_fire():
 		_attack_lock = weapon.attack_lock
 
 
-## Attacks commit the hero to the camera's forward direction so aiming
-## follows the reticle line, not the last run direction.
+## Aim priority: lock-on target, then the nearest enemy roughly in front
+## (soft auto-aim), then camera forward when standing still. While moving
+## with no target, the run facing is kept — the camera never has to be
+## aimed precisely to fight.
+func _aim_before_attack() -> void:
+	if lock_on != null and lock_on.is_locked():
+		_face_point(lock_on.target.global_position)
+		return
+	var soft_target: Node3D = _find_soft_target()
+	if soft_target != null:
+		_face_point(soft_target.global_position)
+	elif input_component.move_vector == Vector2.ZERO:
+		_face_camera_forward()
+
+
+func _face_point(point: Vector3) -> void:
+	var flat: Vector3 = point - visual.global_position
+	flat.y = 0.0
+	if flat.length_squared() > 0.01:
+		visual.global_rotation.y = atan2(-flat.x, -flat.z)
+
+
+func _find_soft_target() -> Node3D:
+	if camera_rig == null:
+		return null
+	var camera_forward: Vector3 = -camera_rig.global_transform.basis.z
+	camera_forward.y = 0.0
+	camera_forward = camera_forward.normalized()
+	var best: Node3D = null
+	var best_distance: float = aim_assist_range
+	for node in get_tree().get_nodes_in_group("enemies"):
+		var enemy: Node3D = node as Node3D
+		if enemy == null:
+			continue
+		var to_enemy: Vector3 = enemy.global_position - visual.global_position
+		to_enemy.y = 0.0
+		var distance: float = to_enemy.length()
+		if distance > best_distance or distance < 0.1:
+			continue
+		var angle: float = rad_to_deg(camera_forward.angle_to(to_enemy / distance))
+		if angle > aim_assist_angle_degrees:
+			continue
+		best = enemy
+		best_distance = distance
+	return best
+
+
 func _face_camera_forward() -> void:
 	if camera_rig != null and visual != null:
 		visual.global_rotation.y = camera_rig.global_rotation.y

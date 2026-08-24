@@ -38,6 +38,10 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var motion: InputEventMouseMotion = event
+		# Sub-pixel jitter (common over remote desktop) must not count as
+		# camera input or the auto-recenter never gets a chance to help.
+		if motion.relative.length_squared() < 2.0:
+			return
 		if not _is_locked():
 			rotation.y -= motion.relative.x * mouse_sensitivity
 		_spring_arm.rotation.x -= motion.relative.y * mouse_sensitivity
