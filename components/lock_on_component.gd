@@ -82,6 +82,7 @@ func _build_indicator() -> void:
 	_indicator.mesh = box
 	_indicator.rotation.x = deg_to_rad(45.0)
 	_indicator.rotation.z = deg_to_rad(45.0)
-	_indicator.top_level = true
 	_indicator.visible = false
-	body.add_child.call_deferred(_indicator)
+	# Lives at scene level, not under the hero: it marks a world position
+	# and must not inherit (or disturb) the hero's transform.
+	body.get_tree().current_scene.add_child.call_deferred(_indicator)

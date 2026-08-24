@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1enemybolt001"]
+
+[ext_resource type="Script" path="res://weapons/blaster_bolt.gd" id="1_bolt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ebolt"]
+albedo_color = Color(1, 0.3, 0.25, 1)
+emission_enabled = true
+emission = Color(1, 0.2, 0.15, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ebolt"]
+material = SubResource("StandardMaterial3D_ebolt")
+radius = 0.08
+height = 0.4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ebolt"]
+radius = 0.12
+
+[node name="EnemyBolt" type="Area3D"]
+collision_layer = 64
+collision_mask = 33
+script = ExtResource("1_bolt")
+speed = 14.0
+damage = 10
+lifetime = 4.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_ebolt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ebolt")

@@ -1,0 +1,32 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://enemies/tasks/bt_target_in_range.gd" id="1_range"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_melee_strike.gd" id="2_strike"]
+[ext_resource type="Script" path="res://enemies/tasks/bt_chase_target.gd" id="3_chase"]
+
+[sub_resource type="BTCondition" id="BTCondition_inrange"]
+script = ExtResource("1_range")
+target_var = &"player"
+range = 1.9
+
+[sub_resource type="BTAction" id="BTAction_strike"]
+script = ExtResource("2_strike")
+target_var = &"player"
+windup = 0.35
+strike = 0.15
+recover = 0.4
+
+[sub_resource type="BTSequence" id="BTSequence_attack"]
+custom_name = "Attack when close"
+children = [SubResource("BTCondition_inrange"), SubResource("BTAction_strike")]
+
+[sub_resource type="BTAction" id="BTAction_chase"]
+script = ExtResource("3_chase")
+target_var = &"player"
+stop_distance = 1.5
+
+[sub_resource type="BTSelector" id="BTSelector_root"]
+children = [SubResource("BTSequence_attack"), SubResource("BTAction_chase")]
+
+[resource]
+root_task = SubResource("BTSelector_root")
