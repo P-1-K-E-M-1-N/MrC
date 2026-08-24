@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=27 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://player/hero.gd" id="0_hero"]
+[ext_resource type="Script" path="res://components/greybox_animator.gd" id="11_anim"]
 [ext_resource type="Script" path="res://components/hurtbox_component.gd" id="10_hurtbox"]
 [ext_resource type="Script" path="res://components/input_component.gd" id="1_input"]
 [ext_resource type="Script" path="res://components/lock_on_component.gd" id="9_lockon"]
@@ -19,17 +20,50 @@ height = 1.8
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hero"]
 albedo_color = Color(0.95, 0.35, 0.15, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_hero"]
-material = SubResource("StandardMaterial3D_hero")
-radius = 0.45
-height = 1.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_limb"]
+albedo_color = Color(0.28, 0.3, 0.36, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nose"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_visor"]
 albedo_color = Color(1, 0.9, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.85, 0.15, 1)
+emission_energy_multiplier = 0.6
 
-[sub_resource type="BoxMesh" id="BoxMesh_nose"]
-material = SubResource("StandardMaterial3D_nose")
-size = Vector3(0.2, 0.2, 0.35)
+[sub_resource type="BoxMesh" id="BoxMesh_pelvis"]
+material = SubResource("StandardMaterial3D_limb")
+size = Vector3(0.34, 0.2, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+material = SubResource("StandardMaterial3D_hero")
+size = Vector3(0.42, 0.48, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+material = SubResource("StandardMaterial3D_hero")
+size = Vector3(0.26, 0.26, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_visor"]
+material = SubResource("StandardMaterial3D_visor")
+size = Vector3(0.2, 0.07, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_upperarm"]
+material = SubResource("StandardMaterial3D_hero")
+size = Vector3(0.12, 0.32, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_forearm"]
+material = SubResource("StandardMaterial3D_limb")
+size = Vector3(0.11, 0.3, 0.11)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thigh"]
+material = SubResource("StandardMaterial3D_limb")
+size = Vector3(0.15, 0.4, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shin"]
+material = SubResource("StandardMaterial3D_limb")
+size = Vector3(0.13, 0.36, 0.13)
+
+[sub_resource type="BoxMesh" id="BoxMesh_foot"]
+material = SubResource("StandardMaterial3D_hero")
+size = Vector3(0.14, 0.09, 0.28)
 
 [node name="Hero" type="CharacterBody3D"]
 collision_layer = 2
@@ -42,16 +76,78 @@ shape = SubResource("CapsuleShape3D_hero")
 
 [node name="Visual" type="Node3D" parent="."]
 
-[node name="BodyMesh" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_hero")
+[node name="Rig" type="Node3D" parent="Visual"]
 
-[node name="NoseMarker" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -0.55)
-mesh = SubResource("BoxMesh_nose")
+[node name="Pelvis" type="MeshInstance3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98, 0)
+mesh = SubResource("BoxMesh_pelvis")
+
+[node name="Torso" type="MeshInstance3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32, 0)
+mesh = SubResource("BoxMesh_torso")
+
+[node name="Head" type="MeshInstance3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+mesh = SubResource("BoxMesh_head")
+
+[node name="Visor" type="MeshInstance3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74, -0.15)
+mesh = SubResource("BoxMesh_visor")
+
+[node name="LeftArmPivot" type="Node3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.52, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Visual/Rig/LeftArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0)
+mesh = SubResource("BoxMesh_upperarm")
+
+[node name="Forearm" type="MeshInstance3D" parent="Visual/Rig/LeftArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+mesh = SubResource("BoxMesh_forearm")
+
+[node name="RightArmPivot" type="Node3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.52, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="Visual/Rig/RightArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0)
+mesh = SubResource("BoxMesh_upperarm")
+
+[node name="Forearm" type="MeshInstance3D" parent="Visual/Rig/RightArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+mesh = SubResource("BoxMesh_forearm")
+
+[node name="LeftLegPivot" type="Node3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 0.95, 0)
+
+[node name="Thigh" type="MeshInstance3D" parent="Visual/Rig/LeftLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("BoxMesh_thigh")
+
+[node name="Shin" type="MeshInstance3D" parent="Visual/Rig/LeftLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57, 0)
+mesh = SubResource("BoxMesh_shin")
+
+[node name="Foot" type="MeshInstance3D" parent="Visual/Rig/LeftLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, -0.05)
+mesh = SubResource("BoxMesh_foot")
+
+[node name="RightLegPivot" type="Node3D" parent="Visual/Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.95, 0)
+
+[node name="Thigh" type="MeshInstance3D" parent="Visual/Rig/RightLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("BoxMesh_thigh")
+
+[node name="Shin" type="MeshInstance3D" parent="Visual/Rig/RightLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57, 0)
+mesh = SubResource("BoxMesh_shin")
+
+[node name="Foot" type="MeshInstance3D" parent="Visual/Rig/RightLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, -0.05)
+mesh = SubResource("BoxMesh_foot")
 
 [node name="WeaponSocket" type="Node3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1, -0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 1.02, -0.18)
 
 [node name="InputComponent" type="Node" parent="."]
 script = ExtResource("1_input")
@@ -85,6 +181,15 @@ camera_rig = NodePath("../CameraRig")
 visual = NodePath("../Visual")
 weapon_scenes = Array[PackedScene]([ExtResource("7_wrench"), ExtResource("8_blaster")])
 melee_index = 0
+
+[node name="GreyboxAnimator" type="Node" parent="." node_paths=PackedStringArray("body", "rig", "left_arm", "right_arm", "left_leg", "right_leg")]
+script = ExtResource("11_anim")
+body = NodePath("..")
+rig = NodePath("../Visual/Rig")
+left_arm = NodePath("../Visual/Rig/LeftArmPivot")
+right_arm = NodePath("../Visual/Rig/RightArmPivot")
+left_leg = NodePath("../Visual/Rig/LeftLegPivot")
+right_leg = NodePath("../Visual/Rig/RightLegPivot")
 
 [node name="LockOnComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "camera_rig")]
 script = ExtResource("9_lockon")
