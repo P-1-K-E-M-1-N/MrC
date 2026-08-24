@@ -30,7 +30,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not _locked:
 		return
-	if not is_instance_valid(target) or _distance_to(target) > break_range:
+	if not is_instance_valid(target):
+		# Target died: hop the lock to the next nearest enemy, or drop it.
+		var candidates: Array[Node3D] = _get_candidates()
+		_set_target(candidates[0] if not candidates.is_empty() else null)
+		if not _locked:
+			return
+	elif _distance_to(target) > break_range:
 		_set_target(null)
 		return
 	_indicator.global_position = target.global_position + Vector3(0, 2.4, 0)

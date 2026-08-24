@@ -57,8 +57,11 @@ func _physics_process(_delta: float) -> void:
 			_check(_lock.target == _far_dummy, "second press cycles target")
 			_far_dummy.queue_free()
 		150:
-			_check(not _lock.is_locked(), "lock releases when target dies")
-			_check(not _lock._indicator.visible, "indicator hides when target dies")
+			_check(_lock.target == _near_dummy, "lock retargets nearest on kill")
+			_near_dummy.queue_free()
+		180:
+			_check(not _lock.is_locked(), "lock releases when last target dies")
+			_check(not _lock._indicator.visible, "indicator hides when last target dies")
 			if _failures.is_empty():
 				print("PASS: lock-on")
 				get_tree().quit(0)
