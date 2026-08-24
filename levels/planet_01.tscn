@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3]
+[gd_scene load_steps=63 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -211,6 +211,21 @@ albedo_color = Color(0.3, 1, 0.5, 1)
 emission_enabled = true
 emission = Color(0.2, 0.95, 0.4, 1)
 emission_energy_multiplier = 3.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lip16"]
+material = SubResource("StandardMaterial3D_post")
+radius = 0.5
+height = 16.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lip24"]
+material = SubResource("StandardMaterial3D_post")
+radius = 0.5
+height = 24.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lip28"]
+material = SubResource("StandardMaterial3D_post")
+radius = 0.5
+height = 28.0
 
 [sub_resource type="TorusMesh" id="TorusMesh_padring"]
 material = SubResource("StandardMaterial3D_glow_cyan")
@@ -659,3 +674,67 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -153)
 light_color = Color(0.4, 1, 0.55, 1)
 light_energy = 0.8
 omni_range = 8.0
+
+[node name="PadLipN" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -0.5, -8)
+mesh = SubResource("CapsuleMesh_lip16")
+
+[node name="PadLipS" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -0.5, 8)
+mesh = SubResource("CapsuleMesh_lip16")
+
+[node name="PadLipW" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -8, -0.5, 0)
+mesh = SubResource("CapsuleMesh_lip16")
+
+[node name="PadLipE" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 8, -0.5, 0)
+mesh = SubResource("CapsuleMesh_lip16")
+
+[node name="A1LipN" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -0.5, -46)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A1LipS" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, -0.5, -22)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A1LipW" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -12, -0.5, -34)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A1LipE" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 12, -0.5, -34)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A2LipN" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, 2.5, -92)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A2LipS" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, 2.5, -68)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A2LipW" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -12, 2.5, -80)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A2LipE" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 12, 2.5, -80)
+mesh = SubResource("CapsuleMesh_lip24")
+
+[node name="A3LipN" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, 2.5, -134)
+mesh = SubResource("CapsuleMesh_lip28")
+
+[node name="A3LipS" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, 2.5, -106)
+mesh = SubResource("CapsuleMesh_lip28")
+
+[node name="A3LipW" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -14, 2.5, -120)
+mesh = SubResource("CapsuleMesh_lip28")
+
+[node name="A3LipE" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 14, 2.5, -120)
+mesh = SubResource("CapsuleMesh_lip28")
