@@ -38,6 +38,7 @@ children = [SubResource("BTCondition_firerange"), SubResource("BTAction_volley")
 script = ExtResource("4_chase")
 target_var = &"player"
 stop_distance = 10.0
+aggro_range = 25.0
 
 [sub_resource type="BTSelector" id="BTSelector_root"]
 children = [SubResource("BTSequence_retreat"), SubResource("BTSequence_shoot"), SubResource("BTAction_approach")]

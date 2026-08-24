@@ -24,6 +24,7 @@ children = [SubResource("BTCondition_inrange"), SubResource("BTAction_strike")]
 script = ExtResource("3_chase")
 target_var = &"player"
 stop_distance = 1.5
+aggro_range = 22.0
 
 [sub_resource type="BTSelector" id="BTSelector_root"]
 children = [SubResource("BTSequence_attack"), SubResource("BTAction_chase")]
