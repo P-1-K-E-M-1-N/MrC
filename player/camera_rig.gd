@@ -30,6 +30,7 @@ extends Node3D
 var lock_target: Node3D = null
 
 var _recenter_timer: float = 0.0
+var _combat_timer: float = 0.0
 var _trauma: float = 0.0
 var _spring_base: Vector3
 
@@ -43,6 +44,13 @@ func _ready() -> void:
 ## Feed the shake meter (hero hits, nearby blasts). Clamped, decays fast.
 func add_trauma(amount: float) -> void:
 	_trauma = minf(_trauma + amount, 1.0)
+
+
+## Attacks call this. While combat is fresh the camera NEVER auto-rotates
+## (R&C rule: the player owns the camera in a fight; aim assist turns the
+## character, not the view, so the control frame stays stable).
+func notify_combat() -> void:
+	_combat_timer = 1.0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -69,14 +77,25 @@ func _physics_process(delta: float) -> void:
 		_recenter_timer = recenter_delay
 
 	_recenter_timer = maxf(_recenter_timer - delta, 0.0)
+	_combat_timer = maxf(_combat_timer - delta, 0.0)
 	if _is_locked():
 		var to_target: Vector3 = lock_target.global_position - anchor.global_position
 		var desired_yaw: float = atan2(-to_target.x, -to_target.z)
 		var track_weight: float = 1.0 - exp(-lock_track_speed * delta)
 		rotation.y = lerp_angle(rotation.y, desired_yaw, track_weight)
-	elif auto_recenter and _recenter_timer <= 0.0 and facing_target != null:
+	elif auto_recenter and _recenter_timer <= 0.0 and _combat_timer <= 0.0:
+		# Traveling: drift behind the direction of MOVEMENT (immune to
+		# aim-assist facing). Idle: settle behind the character's facing.
+		var hero: CharacterBody3D = anchor as CharacterBody3D
+		var flat_velocity: Vector2 = Vector2.ZERO
+		if hero != null:
+			flat_velocity = Vector2(hero.velocity.x, hero.velocity.z)
 		var recenter_weight: float = 1.0 - exp(-recenter_speed * delta)
-		rotation.y = lerp_angle(rotation.y, facing_target.global_rotation.y, recenter_weight)
+		if flat_velocity.length() > 2.0:
+			var travel_yaw: float = atan2(-flat_velocity.x, -flat_velocity.y)
+			rotation.y = lerp_angle(rotation.y, travel_yaw, recenter_weight)
+		elif facing_target != null:
+			rotation.y = lerp_angle(rotation.y, facing_target.global_rotation.y, recenter_weight)
 
 	# Framerate-independent exponential smoothing toward the anchor.
 	var weight: float = 1.0 - exp(-follow_speed * delta)

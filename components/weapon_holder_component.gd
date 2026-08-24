@@ -19,11 +19,17 @@ signal weapon_changed(weapon: Weapon)
 @export_group("Aim assist")
 @export var aim_assist_range: float = 15.0
 @export var aim_assist_angle_degrees: float = 75.0
+## How fast the character turns onto an aim target (no instant snaps).
+@export var aim_turn_speed: float = 16.0
+## Seconds aim facing keeps overriding run facing after an attack.
+@export var aim_hold_time: float = 0.4
 
 var weapons: Array[Weapon] = []
 var current_index: int = 0
 var _attack_lock: float = 0.0
 var _aim_point: Vector3 = Vector3.INF
+var _aim_yaw: float = 0.0
+var _aim_hold: float = 0.0
 
 
 func _ready() -> void:
@@ -46,6 +52,12 @@ func _process(delta: float) -> void:
 	_attack_lock = maxf(_attack_lock - delta, 0.0)
 	if input_component.attack_held and not weapons.is_empty():
 		_attack_with(weapons[current_index])
+	# Smooth turn onto the aim yaw; runs after MovementComponent so aim
+	# facing wins over run facing while an attack is fresh.
+	if _aim_hold > 0.0:
+		_aim_hold -= delta
+		var turn_weight: float = 1.0 - exp(-aim_turn_speed * delta)
+		visual.global_rotation.y = lerp_angle(visual.global_rotation.y, _aim_yaw, turn_weight)
 
 
 func current_weapon() -> Weapon:
@@ -64,6 +76,8 @@ func _on_melee_throw_pressed() -> void:
 	var wrench: TorqueWrench = weapons[melee_index] as TorqueWrench
 	if wrench == null:
 		return
+	if camera_rig != null:
+		camera_rig.notify_combat()
 	_aim_before_attack()
 	wrench.aim_point = _aim_point
 	if wrench.try_throw(visual):
@@ -73,6 +87,8 @@ func _on_melee_throw_pressed() -> void:
 func _attack_with(weapon: Weapon) -> void:
 	if _attack_lock > 0.0:
 		return
+	if camera_rig != null:
+		camera_rig.notify_combat()
 	_aim_before_attack()
 	weapon.aim_point = _aim_point
 	if weapon.try_fire():
@@ -96,6 +112,10 @@ func _aim_before_attack() -> void:
 		_face_point(soft_target.global_position)
 	elif input_component.move_vector == Vector2.ZERO:
 		_face_camera_forward()
+		# Shots go down the camera line even while the body is mid-turn.
+		var forward: Vector3 = -camera_rig.global_transform.basis.z
+		forward.y = 0.0
+		_aim_point = visual.global_position + forward.normalized() * 20.0 + Vector3.UP
 
 
 ## Chest height of a target: enemies declare aim_height; anything that
@@ -110,7 +130,8 @@ func _face_point(point: Vector3) -> void:
 	var flat: Vector3 = point - visual.global_position
 	flat.y = 0.0
 	if flat.length_squared() > 0.01:
-		visual.global_rotation.y = atan2(-flat.x, -flat.z)
+		_aim_yaw = atan2(-flat.x, -flat.z)
+		_aim_hold = aim_hold_time
 
 
 func _find_soft_target() -> Node3D:
@@ -140,7 +161,8 @@ func _find_soft_target() -> Node3D:
 
 func _face_camera_forward() -> void:
 	if camera_rig != null and visual != null:
-		visual.global_rotation.y = camera_rig.global_rotation.y
+		_aim_yaw = camera_rig.global_rotation.y
+		_aim_hold = aim_hold_time
 
 
 func _cycle(step: int) -> void:
