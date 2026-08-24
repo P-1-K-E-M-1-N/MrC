@@ -18,8 +18,8 @@ signal air_flipped(world_direction: Vector3)
 @export var turn_speed: float = 12.0
 
 @export_group("Jump")
-@export var jump_height: float = 4.5
-@export var double_jump_height: float = 3.2
+@export var jump_height: float = 2.25
+@export var double_jump_height: float = 1.6
 @export var air_jumps: int = 1
 @export var coyote_time: float = 0.12
 @export var jump_buffer_time: float = 0.15
