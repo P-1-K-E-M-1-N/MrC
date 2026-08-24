@@ -17,6 +17,9 @@ signal target_changed(target: Node3D)
 var target: Node3D = null
 
 var _indicator: MeshInstance3D
+# Freed-object references compare unreliably against null, so lock state
+# is tracked with this flag and validity is always checked explicitly.
+var _locked: bool = false
 
 
 func _ready() -> void:
@@ -25,19 +28,27 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if target != null and (not is_instance_valid(target) or _distance_to(target) > break_range):
+	if not _locked:
+		return
+	if not is_instance_valid(target) or _distance_to(target) > break_range:
 		_set_target(null)
-	if target != null:
-		_indicator.global_position = target.global_position + Vector3(0, 2.4, 0)
-		_indicator.rotation.y += 3.0 * delta
+		return
+	_indicator.global_position = target.global_position + Vector3(0, 2.4, 0)
+	_indicator.rotation.y += 3.0 * delta
+
+
+func is_locked() -> bool:
+	return _locked
 
 
 func _on_lock_on_pressed() -> void:
+	if _locked and not is_instance_valid(target):
+		_set_target(null)
 	var candidates: Array[Node3D] = _get_candidates()
 	if candidates.is_empty():
 		_set_target(null)
 		return
-	if target == null:
+	if not _locked:
 		_set_target(candidates[0])
 		return
 	var index: int = candidates.find(target)
@@ -63,8 +74,9 @@ func _distance_to(node: Node3D) -> float:
 
 func _set_target(new_target: Node3D) -> void:
 	target = new_target
+	_locked = new_target != null
 	camera_rig.lock_target = new_target
-	_indicator.visible = new_target != null
+	_indicator.visible = _locked
 	target_changed.emit(new_target)
 
 
