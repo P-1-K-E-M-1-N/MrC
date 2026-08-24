@@ -1,7 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://c1tstplane0001"]
+[gd_scene load_steps=19 format=3 uid="uid://c1tstplane0001"]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" uid="uid://b2nw7iklf50to" path="res://enemies/target_dummy.tscn" id="2_dummy"]
+[ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="3_rusher"]
+[ext_resource type="PackedScene" path="res://enemies/shooter.tscn" id="4_shooter"]
+[ext_resource type="PackedScene" path="res://pickups/health_pickup.tscn" id="5_pickup"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky1"]
 sky_top_color = Color(0.25, 0.55, 0.88, 1)
@@ -119,10 +122,19 @@ shape = SubResource("BoxShape3D_pillar")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 8)
 
 [node name="Dummy1" parent="." instance=ExtResource("2_dummy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
 
-[node name="Dummy2" parent="." instance=ExtResource("2_dummy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Rusher1" parent="." instance=ExtResource("3_rusher")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -10)
 
-[node name="Dummy3" parent="." instance=ExtResource("2_dummy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
+[node name="Rusher2" parent="." instance=ExtResource("3_rusher")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -14)
+
+[node name="Shooter1" parent="." instance=ExtResource("4_shooter")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="HealthPickup1" parent="." instance=ExtResource("5_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.9, 5)
+
+[node name="HealthPickup2" parent="." instance=ExtResource("5_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.9, -8)

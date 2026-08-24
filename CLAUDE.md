@@ -36,6 +36,30 @@ Components communicate through **signals and exported node references**, never
 by reaching up the tree with `get_parent()` chains. A second character or a
 companion must be buildable by recomposing existing components.
 
+## Collision layers (bits in parentheses)
+
+1 world (1) · 2 player (2) · 3 enemy (4) · 4 enemy_hurtbox (8) ·
+5 player_attack (16) · 6 player_hurtbox (32) · 7 enemy_attack (64).
+Player attacks mask enemy hurtboxes; enemy attacks mask player hurtboxes;
+neither faction can hit itself. Projectiles also mask world (1) to die on
+geometry.
+
+## Spawning rule
+
+Set a node's `position` BEFORE `add_child()`. Adding a body at the tree
+origin and moving it afterwards lets physics depenetrate it against
+whatever is already there (a body spawned overlapping the hero once
+carried the hero across the map as a "platform").
+
+## Enemy AI
+
+Enemies use LimboAI behavior trees: a `BTPlayer` node on the enemy, the
+tree authored as a text `.tres` (see `enemies/rusher.tres`), and custom
+tasks in `enemies/tasks/` extending `BTAction`/`BTCondition` (`@tool`,
+override `_tick`, use `agent` cast to `EnemyBase` and the `player`
+blackboard var published by `EnemyBase._ready`). Movement goes through
+`EnemyBase.steer/stop/face_point`; tasks never touch velocity directly.
+
 ## Verification rule
 
 **No task is done until the project runs headless without script errors:**
