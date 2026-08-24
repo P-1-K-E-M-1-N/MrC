@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1healthpick01"]
+
+[ext_resource type="Script" path="res://pickups/health_pickup.gd" id="1_pickup"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_heal"]
+albedo_color = Color(0.2, 0.9, 0.4, 1)
+emission_enabled = true
+emission = Color(0.15, 0.8, 0.3, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_bar_a"]
+material = SubResource("StandardMaterial3D_heal")
+size = Vector3(0.5, 0.16, 0.16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bar_b"]
+material = SubResource("StandardMaterial3D_heal")
+size = Vector3(0.16, 0.5, 0.16)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pickup"]
+radius = 0.7
+
+[node name="HealthPickup" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_pickup")
+
+[node name="BarA" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_bar_a")
+
+[node name="BarB" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_bar_b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_pickup")
