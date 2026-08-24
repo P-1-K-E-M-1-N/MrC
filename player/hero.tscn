@@ -1,5 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=17 format=3 uid="uid://c1herocaps0001"]
 
+[ext_resource type="Script" path="res://player/hero.gd" id="0_hero"]
+[ext_resource type="Script" path="res://components/hurtbox_component.gd" id="10_hurtbox"]
 [ext_resource type="Script" path="res://components/input_component.gd" id="1_input"]
 [ext_resource type="Script" path="res://components/lock_on_component.gd" id="9_lockon"]
 [ext_resource type="Script" path="res://player/camera_rig.gd" id="5_camrig"]
@@ -32,6 +34,7 @@ size = Vector3(0.2, 0.2, 0.35)
 [node name="Hero" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 5
+script = ExtResource("0_hero")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -62,6 +65,17 @@ visual = NodePath("../Visual")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_health")
+invuln_time = 0.6
+
+[node name="HurtboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("10_hurtbox")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_hero")
 
 [node name="WeaponHolderComponent" type="Node" parent="." node_paths=PackedStringArray("socket", "input_component", "camera_rig", "visual")]
 script = ExtResource("4_weapon")
