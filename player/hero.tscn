@@ -1,7 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=30 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://player/hero.gd" id="0_hero"]
 [ext_resource type="Script" path="res://components/greybox_animator.gd" id="11_anim"]
+[ext_resource type="Script" path="res://components/wallet_component.gd" id="12_wallet"]
+[ext_resource type="PackedScene" path="res://weapons/scattergun.tscn" id="13_scatter"]
+[ext_resource type="PackedScene" path="res://weapons/grenade_bot.tscn" id="14_lobbot"]
 [ext_resource type="Script" path="res://components/hurtbox_component.gd" id="10_hurtbox"]
 [ext_resource type="Script" path="res://components/input_component.gd" id="1_input"]
 [ext_resource type="Script" path="res://components/lock_on_component.gd" id="9_lockon"]
@@ -179,8 +182,11 @@ socket = NodePath("../Visual/WeaponSocket")
 input_component = NodePath("../InputComponent")
 camera_rig = NodePath("../CameraRig")
 visual = NodePath("../Visual")
-weapon_scenes = Array[PackedScene]([ExtResource("7_wrench"), ExtResource("8_blaster")])
+weapon_scenes = Array[PackedScene]([ExtResource("7_wrench"), ExtResource("8_blaster"), ExtResource("13_scatter"), ExtResource("14_lobbot")])
 melee_index = 0
+
+[node name="WalletComponent" type="Node" parent="."]
+script = ExtResource("12_wallet")
 
 [node name="GreyboxAnimator" type="Node" parent="." node_paths=PackedStringArray("body", "rig", "left_arm", "right_arm", "left_leg", "right_leg")]
 script = ExtResource("11_anim")
@@ -210,10 +216,11 @@ margin = 0.25
 [node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]
 current = true
 
-[node name="Hud" type="CanvasLayer" parent="." node_paths=PackedStringArray("weapon_holder", "health_component")]
+[node name="Hud" type="CanvasLayer" parent="." node_paths=PackedStringArray("weapon_holder", "health_component", "wallet")]
 script = ExtResource("6_hud")
 weapon_holder = NodePath("../WeaponHolderComponent")
 health_component = NodePath("../HealthComponent")
+wallet = NodePath("../WalletComponent")
 
 [node name="Label" type="Label" parent="Hud"]
 offset_left = 16.0

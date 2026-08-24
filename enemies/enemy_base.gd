@@ -8,6 +8,9 @@ extends CharacterBody3D
 
 @export var move_speed: float = 4.0
 @export var turn_speed: float = 10.0
+@export var bolt_drop_scene: PackedScene
+@export var min_bolt_drop: int = 3
+@export var max_bolt_drop: int = 6
 
 @onready var health: HealthComponent = $HealthComponent
 @onready var bt_player: BTPlayer = $BTPlayer
@@ -18,7 +21,7 @@ var _flash_mesh: MeshInstance3D
 
 func _ready() -> void:
 	add_to_group("enemies")
-	health.died.connect(queue_free)
+	health.died.connect(_on_died)
 	var hurtbox: HurtboxComponent = get_node("HurtboxComponent")
 	hurtbox.hit_received.connect(_on_hit)
 	_flash_mesh = get_node_or_null("BodyMesh")
@@ -68,6 +71,18 @@ func face_point(point: Vector3, delta: float) -> void:
 	var target_yaw: float = atan2(-direction.x, -direction.z)
 	var weight: float = 1.0 - exp(-turn_speed * 1.5 * delta)
 	rotation.y = lerp_angle(rotation.y, target_yaw, weight)
+
+
+func _on_died() -> void:
+	if bolt_drop_scene != null:
+		var count: int = randi_range(min_bolt_drop, max_bolt_drop)
+		for i in count:
+			var bolt: BoltPickup = bolt_drop_scene.instantiate()
+			bolt.position = global_position + Vector3(
+				randf_range(-0.8, 0.8), 0.5 + randf() * 0.4, randf_range(-0.8, 0.8)
+			)
+			get_tree().current_scene.add_child(bolt)
+	queue_free()
 
 
 func _on_hit(_amount: int) -> void:

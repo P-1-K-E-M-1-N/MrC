@@ -6,20 +6,22 @@ extends CanvasLayer
 
 @export var weapon_holder: WeaponHolderComponent
 @export var health_component: HealthComponent
+@export var wallet: WalletComponent
 
 @onready var _label: Label = $Label
 
 
 func _process(_delta: float) -> void:
+	var bolts_line: String = "Bolts %d" % wallet.bolts if wallet != null else ""
 	var weapon: Weapon = weapon_holder.current_weapon()
 	if weapon == null:
-		_label.text = "HP %d" % health_component.current_health
+		_label.text = "HP %d\n%s" % [health_component.current_health, bolts_line]
 		return
 	var ammo_text: String = "--"
 	if weapon.max_ammo < 0:
 		ammo_text = "inf"
 	else:
 		ammo_text = "%d / %d" % [weapon.ammo, weapon.max_ammo]
-	_label.text = "HP %d\n%s  [%s]" % [
-		health_component.current_health, weapon.display_name, ammo_text
+	_label.text = "HP %d\n%s  [%s]\n%s" % [
+		health_component.current_health, weapon.display_name, ammo_text, bolts_line
 	]
