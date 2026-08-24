@@ -77,6 +77,7 @@ func _attack_with(weapon: Weapon) -> void:
 	weapon.aim_point = _aim_point
 	if weapon.try_fire():
 		_attack_lock = weapon.attack_lock
+		Input.start_joy_vibration(0, 0.15, 0.0, 0.08)
 
 
 ## Aim priority: lock-on target, then the nearest enemy roughly in front

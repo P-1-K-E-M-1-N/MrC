@@ -25,6 +25,7 @@ func _detonate() -> void:
 		var rig: CameraRig = player.get_node_or_null("CameraRig")
 		if rig != null:
 			rig.add_trauma(0.4)
+		Input.start_joy_vibration(0, 0.3, 0.6, 0.25)
 	_mesh.scale = Vector3.ONE * 0.2
 	var tween: Tween = create_tween()
 	tween.tween_property(_mesh, "scale", Vector3.ONE, 0.2)

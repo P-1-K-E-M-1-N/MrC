@@ -9,7 +9,7 @@ extends Node3D
 ## Node whose yaw the camera recenters behind (the hero's rotating visual).
 @export var facing_target: Node3D
 @export var mouse_sensitivity: float = 0.0025
-@export var stick_speed: float = 2.5
+@export var stick_speed: float = 3.2
 @export var pitch_min_degrees: float = -60.0
 @export var pitch_max_degrees: float = 75.0
 @export var follow_speed: float = 14.0

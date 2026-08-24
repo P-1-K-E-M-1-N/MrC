@@ -41,6 +41,7 @@ func _respawn() -> void:
 
 func _on_hit(_amount: int) -> void:
 	_camera_rig.add_trauma(0.45)
+	Input.start_joy_vibration(0, 0.5, 0.7, 0.3)
 	_visual.scale = Vector3(1.12, 0.92, 1.12)
 	var tween: Tween = create_tween()
 	tween.tween_property(_visual, "scale", Vector3.ONE, 0.18)

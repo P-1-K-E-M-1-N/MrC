@@ -1,8 +1,10 @@
 class_name PauseMenu
 extends CanvasLayer
 
-## Esc pauses the tree and shows Resume/Quit with the mouse freed.
-## Runs with PROCESS_MODE_ALWAYS so it still hears input while paused.
+## Esc or the controller Start button pauses the tree and shows
+## Resume/Quit with the mouse freed. Runs with PROCESS_MODE_ALWAYS so it
+## still hears input while paused; Resume grabs focus so d-pad + accept
+## navigate without a mouse.
 
 
 @onready var _resume_button: Button = $VBox/Resume
@@ -16,7 +18,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("ui_cancel"):
+	if not event.is_action_pressed("pause"):
 		return
 	if get_tree().paused:
 		_resume()
@@ -28,6 +30,7 @@ func _pause() -> void:
 	get_tree().paused = true
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_resume_button.grab_focus()
 
 
 func _resume() -> void:
