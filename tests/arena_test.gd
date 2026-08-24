@@ -42,7 +42,9 @@ func _ready() -> void:
 	_arena.collision_mask = 2
 	var volume_shape: CollisionShape3D = CollisionShape3D.new()
 	var volume_box: BoxShape3D = BoxShape3D.new()
-	volume_box.size = Vector3(24, 10, 24)
+	# Trigger is smaller than the arena so the hero is well past the
+	# entrance gate before it seals (gate sits at z 11.5).
+	volume_box.size = Vector3(16, 10, 15)
 	volume_shape.shape = volume_box
 	volume_shape.position = Vector3(0, 3, 0)
 	_arena.add_child(volume_shape)
@@ -72,6 +74,11 @@ func _physics_process(_delta: float) -> void:
 		20:
 			_check(_gate.collision_layer == 0 and not _gate.visible,
 				"gate down before hero enters")
+			_hero.global_position = Vector3(0, 0.1, 10)
+			_hero.velocity = Vector3.ZERO
+		40:
+			_check(_gate.collision_layer == 0 and not _gate.visible,
+				"gate stays down at the entrance line")
 			_hero.global_position = Vector3(0, 0.1, 5)
 			_hero.velocity = Vector3.ZERO
 		60:
