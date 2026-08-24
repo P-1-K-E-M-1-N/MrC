@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://weapons/grenade_bot.gd" id="1_lobbot"]
+[ext_resource type="PackedScene" path="res://weapons/grenade.tscn" id="2_grenade"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.7, 0.3, 0.7, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = SubResource("StandardMaterial3D_body")
+size = Vector3(0.16, 0.18, 0.38)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tube"]
+material = SubResource("StandardMaterial3D_body")
+top_radius = 0.09
+bottom_radius = 0.09
+height = 0.25
+
+[node name="LobBot" type="Node3D"]
+script = ExtResource("1_lobbot")
+grenade_scene = ExtResource("2_grenade")
+display_name = "Lob-Bot"
+max_ammo = 12
+fire_interval = 1.0
+attack_lock = 0.3
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("BoxMesh_body")
+
+[node name="Tube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.05, -0.32)
+mesh = SubResource("CylinderMesh_tube")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.45)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://weapons/grenade.gd" id="1_grenade"]
+[ext_resource type="PackedScene" path="res://weapons/explosion.tscn" id="2_boom"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gbody"]
+albedo_color = Color(0.75, 0.3, 0.75, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gbody"]
+material = SubResource("StandardMaterial3D_gbody")
+radius = 0.16
+height = 0.32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glight"]
+albedo_color = Color(1, 0.2, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.1, 0.1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_grenade"]
+radius = 0.18
+
+[node name="Grenade" type="Area3D"]
+collision_layer = 16
+collision_mask = 13
+script = ExtResource("1_grenade")
+explosion_scene = ExtResource("2_boom")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_gbody")
+
+[node name="Light" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.14, 0)
+mesh = SubResource("SphereMesh_gbody")
+material_override = SubResource("StandardMaterial3D_glight")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_grenade")
