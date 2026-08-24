@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3]
+[gd_scene load_steps=60 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -15,6 +15,10 @@
 [ext_resource type="PackedScene" path="res://pickups/bolt_pickup.tscn" id="13_bolt"]
 [ext_resource type="PackedScene" path="res://pickups/ammo_pickup.tscn" id="14_ammo"]
 [ext_resource type="Shader" path="res://assets/panel_floor.gdshader" id="15_floorshader"]
+[ext_resource type="PackedScene" path="res://assets/pylon.tscn" id="16_pylon"]
+[ext_resource type="PackedScene" path="res://assets/pylon_amber.tscn" id="17_pylonamber"]
+[ext_resource type="PackedScene" path="res://assets/pylon_magenta.tscn" id="18_pylonmagenta"]
+[ext_resource type="PackedScene" path="res://assets/pylon_lime.tscn" id="19_pylonlime"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.16, 0.34, 0.88, 1)
@@ -202,49 +206,11 @@ emission_enabled = true
 emission = Color(0.15, 0.75, 0.9, 1)
 emission_energy_multiplier = 2.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_amber"]
-albedo_color = Color(1, 0.62, 0.15, 1)
-emission_enabled = true
-emission = Color(1, 0.55, 0.1, 1)
-emission_energy_multiplier = 2.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_magenta"]
-albedo_color = Color(0.95, 0.3, 0.85, 1)
-emission_enabled = true
-emission = Color(0.9, 0.2, 0.8, 1)
-emission_energy_multiplier = 2.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_lime"]
-albedo_color = Color(0.55, 1, 0.25, 1)
-emission_enabled = true
-emission = Color(0.45, 0.95, 0.15, 1)
-emission_energy_multiplier = 2.5
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_green"]
 albedo_color = Color(0.3, 1, 0.5, 1)
 emission_enabled = true
 emission = Color(0.2, 0.95, 0.4, 1)
 emission_energy_multiplier = 3.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_post"]
-material = SubResource("StandardMaterial3D_post")
-size = Vector3(0.35, 3.5, 0.35)
-
-[sub_resource type="BoxMesh" id="BoxMesh_top_cyan"]
-material = SubResource("StandardMaterial3D_glow_cyan")
-size = Vector3(0.5, 0.45, 0.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_top_amber"]
-material = SubResource("StandardMaterial3D_glow_amber")
-size = Vector3(0.5, 0.45, 0.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_top_magenta"]
-material = SubResource("StandardMaterial3D_glow_magenta")
-size = Vector3(0.5, 0.45, 0.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_top_lime"]
-material = SubResource("StandardMaterial3D_glow_lime")
-size = Vector3(0.5, 0.45, 0.5)
 
 [sub_resource type="TorusMesh" id="TorusMesh_padring"]
 material = SubResource("StandardMaterial3D_glow_cyan")
@@ -606,37 +572,17 @@ shape = SubResource("BoxShape3D_gate14")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 mesh = SubResource("TorusMesh_padring")
 
-[node name="PadPost1" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 1.75, -7.3)
-mesh = SubResource("BoxMesh_post")
+[node name="PadPylon1" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 0, -7.3)
 
-[node name="PadPost1Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 3.7, -7.3)
-mesh = SubResource("BoxMesh_top_cyan")
+[node name="PadPylon2" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 0, -7.3)
 
-[node name="PadPost2" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 1.75, -7.3)
-mesh = SubResource("BoxMesh_post")
+[node name="PadPylon3" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 0, 7.3)
 
-[node name="PadPost2Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 3.7, -7.3)
-mesh = SubResource("BoxMesh_top_cyan")
-
-[node name="PadPost3" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 1.75, 7.3)
-mesh = SubResource("BoxMesh_post")
-
-[node name="PadPost3Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 3.7, 7.3)
-mesh = SubResource("BoxMesh_top_cyan")
-
-[node name="PadPost4" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 1.75, 7.3)
-mesh = SubResource("BoxMesh_post")
-
-[node name="PadPost4Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 3.7, 7.3)
-mesh = SubResource("BoxMesh_top_cyan")
+[node name="PadPylon4" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 0, 7.3)
 
 [node name="PadFill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
@@ -644,37 +590,17 @@ light_color = Color(0.4, 0.85, 0.95, 1)
 light_energy = 0.6
 omni_range = 12.0
 
-[node name="A1Post1" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 1.75, -45.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A1Pylon1" parent="Decor" instance=ExtResource("17_pylonamber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 0, -45.2)
 
-[node name="A1Post1Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 3.7, -45.2)
-mesh = SubResource("BoxMesh_top_amber")
+[node name="A1Pylon2" parent="Decor" instance=ExtResource("17_pylonamber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 0, -45.2)
 
-[node name="A1Post2" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 1.75, -45.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A1Pylon3" parent="Decor" instance=ExtResource("17_pylonamber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 0, -22.8)
 
-[node name="A1Post2Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 3.7, -45.2)
-mesh = SubResource("BoxMesh_top_amber")
-
-[node name="A1Post3" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 1.75, -22.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A1Post3Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 3.7, -22.8)
-mesh = SubResource("BoxMesh_top_amber")
-
-[node name="A1Post4" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 1.75, -22.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A1Post4Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 3.7, -22.8)
-mesh = SubResource("BoxMesh_top_amber")
+[node name="A1Pylon4" parent="Decor" instance=ExtResource("17_pylonamber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 0, -22.8)
 
 [node name="A1Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -34)
@@ -682,37 +608,17 @@ light_color = Color(1, 0.65, 0.3, 1)
 light_energy = 0.7
 omni_range = 16.0
 
-[node name="A2Post1" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 4.75, -91.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A2Pylon1" parent="Decor" instance=ExtResource("18_pylonmagenta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 3, -91.2)
 
-[node name="A2Post1Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 6.7, -91.2)
-mesh = SubResource("BoxMesh_top_magenta")
+[node name="A2Pylon2" parent="Decor" instance=ExtResource("18_pylonmagenta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 3, -91.2)
 
-[node name="A2Post2" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 4.75, -91.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A2Pylon3" parent="Decor" instance=ExtResource("18_pylonmagenta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 3, -68.8)
 
-[node name="A2Post2Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 6.7, -91.2)
-mesh = SubResource("BoxMesh_top_magenta")
-
-[node name="A2Post3" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 4.75, -68.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A2Post3Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2, 6.7, -68.8)
-mesh = SubResource("BoxMesh_top_magenta")
-
-[node name="A2Post4" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 4.75, -68.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A2Post4Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 6.7, -68.8)
-mesh = SubResource("BoxMesh_top_magenta")
+[node name="A2Pylon4" parent="Decor" instance=ExtResource("18_pylonmagenta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 3, -68.8)
 
 [node name="A2Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -80)
@@ -720,37 +626,17 @@ light_color = Color(0.95, 0.4, 0.85, 1)
 light_energy = 0.7
 omni_range = 16.0
 
-[node name="A3Post1" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 4.75, -133.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A3Pylon1" parent="Decor" instance=ExtResource("19_pylonlime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 3, -133.2)
 
-[node name="A3Post1Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 6.7, -133.2)
-mesh = SubResource("BoxMesh_top_lime")
+[node name="A3Pylon2" parent="Decor" instance=ExtResource("19_pylonlime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 3, -133.2)
 
-[node name="A3Post2" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 4.75, -133.2)
-mesh = SubResource("BoxMesh_post")
+[node name="A3Pylon3" parent="Decor" instance=ExtResource("19_pylonlime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 3, -106.8)
 
-[node name="A3Post2Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 6.7, -133.2)
-mesh = SubResource("BoxMesh_top_lime")
-
-[node name="A3Post3" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 4.75, -106.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A3Post3Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 6.7, -106.8)
-mesh = SubResource("BoxMesh_top_lime")
-
-[node name="A3Post4" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 4.75, -106.8)
-mesh = SubResource("BoxMesh_post")
-
-[node name="A3Post4Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 6.7, -106.8)
-mesh = SubResource("BoxMesh_top_lime")
+[node name="A3Pylon4" parent="Decor" instance=ExtResource("19_pylonlime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 3, -106.8)
 
 [node name="A3Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -120)
@@ -758,21 +644,11 @@ light_color = Color(0.6, 1, 0.35, 1)
 light_energy = 0.7
 omni_range = 18.0
 
-[node name="PlazaPost1" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 4.75, -141)
-mesh = SubResource("BoxMesh_post")
+[node name="PlazaPylon1" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 3, -141)
 
-[node name="PlazaPost1Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 6.7, -141)
-mesh = SubResource("BoxMesh_top_cyan")
-
-[node name="PlazaPost2" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 4.75, -141)
-mesh = SubResource("BoxMesh_post")
-
-[node name="PlazaPost2Top" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 6.7, -141)
-mesh = SubResource("BoxMesh_top_cyan")
+[node name="PlazaPylon2" parent="Decor" instance=ExtResource("16_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 3, -141)
 
 [node name="ExitRing" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.03, -153)

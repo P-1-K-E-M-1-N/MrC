@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/pylon.tscn" id="1_base"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amber"]
+albedo_color = Color(1, 0.62, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.55, 0.1, 1)
+emission_energy_multiplier = 2.5
+
+[node name="PylonAmber" instance=ExtResource("1_base")]
+
+[node name="Ring" parent="."]
+surface_material_override/0 = SubResource("StandardMaterial3D_amber")
+
+[node name="Tip" parent="."]
+surface_material_override/0 = SubResource("StandardMaterial3D_amber")
