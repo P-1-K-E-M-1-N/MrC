@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3]
+[gd_scene load_steps=69 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://assets/pylon_lime.tscn" id="19_pylonlime"]
 [ext_resource type="PackedScene" path="res://assets/rock.tscn" id="20_rock"]
 [ext_resource type="PackedScene" path="res://assets/crystal_cluster.tscn" id="21_crystal"]
+[ext_resource type="Script" path="res://vfx/conduit_driver.gd" id="22_conduit"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.16, 0.34, 0.88, 1)
@@ -57,6 +58,8 @@ shader_parameter/trim_color = Color(0.2, 0.85, 0.95, 1)
 shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
 shader_parameter/trim_every = 6.0
+shader_parameter/flow_color = Color(0.7, 0.95, 1, 1)
+shader_parameter/flow_emission = 1.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_walk"]
 shader = ExtResource("15_floorshader")
@@ -66,6 +69,9 @@ shader_parameter/trim_color = Color(1, 0.72, 0.25, 1)
 shader_parameter/trim_emission = 0.5
 shader_parameter/tile_size = 1.5
 shader_parameter/trim_every = 6.0
+shader_parameter/flow_color = Color(1, 0.85, 0.5, 1)
+shader_parameter/flow_emission = 1.2
+shader_parameter/flow_spacing = 12.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena1"]
 shader = ExtResource("15_floorshader")
@@ -75,6 +81,8 @@ shader_parameter/trim_color = Color(1, 0.6, 0.15, 1)
 shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
 shader_parameter/trim_every = 6.0
+shader_parameter/flow_color = Color(1, 0.8, 0.4, 1)
+shader_parameter/flow_emission = 1.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena2"]
 shader = ExtResource("15_floorshader")
@@ -84,6 +92,8 @@ shader_parameter/trim_color = Color(0.95, 0.3, 0.85, 1)
 shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
 shader_parameter/trim_every = 6.0
+shader_parameter/flow_color = Color(1, 0.6, 0.95, 1)
+shader_parameter/flow_emission = 1.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena3"]
 shader = ExtResource("15_floorshader")
@@ -93,6 +103,8 @@ shader_parameter/trim_color = Color(0.55, 1, 0.25, 1)
 shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
 shader_parameter/trim_every = 6.0
+shader_parameter/flow_color = Color(0.8, 1, 0.5, 1)
+shader_parameter/flow_emission = 1.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_exit"]
 shader = ExtResource("15_floorshader")
@@ -102,6 +114,9 @@ shader_parameter/trim_color = Color(0.3, 1, 0.5, 1)
 shader_parameter/trim_emission = 1.2
 shader_parameter/tile_size = 1.25
 shader_parameter/trim_every = 4.0
+shader_parameter/flow_color = Color(0.7, 1, 0.8, 1)
+shader_parameter/flow_emission = 2.0
+shader_parameter/flow_speed = 7.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_accent"]
 albedo_color = Color(0.55, 0.42, 0.32, 1)
@@ -597,6 +612,10 @@ mesh = SubResource("BoxMesh_gate14")
 
 [node name="Shape" type="CollisionShape3D" parent="Arena3Volume/GateOut"]
 shape = SubResource("BoxShape3D_gate14")
+
+[node name="ConduitDriver" type="Node" parent="." node_paths=PackedStringArray("scan_root")]
+script = ExtResource("22_conduit")
+scan_root = NodePath("..")
 
 [node name="Decor" type="Node3D" parent="."]
 
