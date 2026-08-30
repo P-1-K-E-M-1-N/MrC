@@ -21,7 +21,7 @@ collision_layer = 16
 collision_mask = 9
 script = ExtResource("1_bolt")
 speed = 24.0
-damage = 8
+damage = 13
 lifetime = 0.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

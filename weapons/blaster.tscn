@@ -16,7 +16,7 @@ script = ExtResource("1_blaster")
 bolt_scene = ExtResource("2_bolt")
 display_name = "Pip Blaster"
 max_ammo = 200
-fire_interval = 0.125
+fire_interval = 0.15
 
 [node name="Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
