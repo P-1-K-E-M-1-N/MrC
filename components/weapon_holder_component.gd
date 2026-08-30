@@ -172,7 +172,12 @@ func _cycle(step: int) -> void:
 
 
 func _on_weapon_selected(index: int) -> void:
-	if index < weapons.size():
+	equip(index)
+
+
+## Public switch used by the weapon wheel and direct-select keys.
+func equip(index: int) -> void:
+	if index >= 0 and index < weapons.size():
 		_equip(index)
 
 

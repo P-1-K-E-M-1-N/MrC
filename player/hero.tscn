@@ -1,6 +1,7 @@
-[gd_scene load_steps=32 format=3 uid="uid://c1herocaps0001"]
+[gd_scene load_steps=33 format=3 uid="uid://c1herocaps0001"]
 
 [ext_resource type="Script" path="res://player/hero.gd" id="0_hero"]
+[ext_resource type="PackedScene" path="res://ui/weapon_wheel.tscn" id="17_wheel"]
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="15_pause"]
 [ext_resource type="Script" path="res://components/greybox_animator.gd" id="11_anim"]
 [ext_resource type="Script" path="res://components/wallet_component.gd" id="12_wallet"]
@@ -240,6 +241,9 @@ offset_top = 12.0
 offset_right = 700.0
 offset_bottom = 110.0
 theme_override_font_sizes/font_size = 20
+
+[node name="WeaponWheel" parent="." node_paths=PackedStringArray("weapon_holder") instance=ExtResource("17_wheel")]
+weapon_holder = NodePath("../WeaponHolderComponent")
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 process_mode = 3
