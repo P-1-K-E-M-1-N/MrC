@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rock"]
+albedo_color = Color(0.32, 0.27, 0.4, 1)
+roughness = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_rock"]
+material = SubResource("StandardMaterial3D_rock")
+radius = 1.0
+height = 2.0
+radial_segments = 6
+rings = 4
+
+[node name="Rock" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Lobe1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.42, 0, 0.42, 0, 0.6, 0, -0.42, 0, 0.42, 0.55, 0.35, -0.25)
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Lobe2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.49, 0.49, 0, -0.49, 0.49, 0, 0, 0, 0.7, -0.5, -0.2, 0.35)
+mesh = SubResource("SphereMesh_rock")

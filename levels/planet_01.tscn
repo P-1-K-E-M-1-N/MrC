@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3]
+[gd_scene load_steps=65 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" path="res://assets/pylon_amber.tscn" id="17_pylonamber"]
 [ext_resource type="PackedScene" path="res://assets/pylon_magenta.tscn" id="18_pylonmagenta"]
 [ext_resource type="PackedScene" path="res://assets/pylon_lime.tscn" id="19_pylonlime"]
+[ext_resource type="PackedScene" path="res://assets/rock.tscn" id="20_rock"]
+[ext_resource type="PackedScene" path="res://assets/crystal_cluster.tscn" id="21_crystal"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.16, 0.34, 0.88, 1)
@@ -738,3 +740,60 @@ mesh = SubResource("CapsuleMesh_lip28")
 [node name="A3LipE" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 14, 2.5, -120)
 mesh = SubResource("CapsuleMesh_lip28")
+
+[node name="AnchorRockPad" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, -9.5, 0)
+
+[node name="AnchorRockA1" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, -10.5, -34)
+
+[node name="AnchorRockA2" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, -8, -80)
+
+[node name="AnchorRockA3" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -8.5, -120)
+
+[node name="DriftRock1" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22, -5, -18)
+
+[node name="DriftRock2" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(3.83, 0, 3.215, 0, 5, 0, -3.215, 0, 3.83, -24, -9, -50)
+
+[node name="DriftRock3" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 19, -7, -72)
+
+[node name="DriftRock4" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(0, 0, 4, 0, 4, 0, -4, 0, 0, -21, -4, -95)
+
+[node name="DriftRock5" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 24, -10, -125)
+
+[node name="DriftRock6" parent="Decor" instance=ExtResource("20_rock")]
+transform = Transform3D(2.3, 0, -1.93, 0, 3, 0, 1.93, 0, 2.3, -18, -6, -148)
+
+[node name="Crystal1" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0, -6.5)
+
+[node name="Crystal2" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0.566, 0, 0.566, 0, 0.8, 0, -0.566, 0, 0.566, -2.4, 0, -13)
+
+[node name="Crystal3" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5, 0, -24.5)
+
+[node name="Crystal4" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0.953, 0, -0.55, 0, 1.1, 0, 0.55, 0, 0.953, 10.3, 0, -44)
+
+[node name="Crystal5" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0.566, 0, -0.566, 0, 0.8, 0, 0.566, 0, 0.566, 10.5, 3, -70)
+
+[node name="Crystal6" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6, 3, -90)
+
+[node name="Crystal7" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0, 0, -1.2, 0, 1.2, 0, 1.2, 0, 0, -12.5, 3, -108)
+
+[node name="Crystal8" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 12.4, 3, -132)
+
+[node name="Crystal9" parent="Decor" instance=ExtResource("21_crystal")]
+transform = Transform3D(0.766, 0, 0.643, 0, 1, 0, -0.643, 0, 0.766, -6, 3, -144)
