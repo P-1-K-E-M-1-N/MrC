@@ -45,6 +45,9 @@ func _physics_process(delta: float) -> void:
 		var weight: float = 1.0 - exp(-turn_speed * delta)
 		rotation.y = lerp_angle(rotation.y, target_yaw, weight)
 	move_and_slide()
+	# Knocked off the world: despawn (no drops) so arenas can still clear.
+	if global_position.y < -20.0:
+		queue_free()
 
 
 ## Steering API used by BT tasks: set horizontal velocity toward/away

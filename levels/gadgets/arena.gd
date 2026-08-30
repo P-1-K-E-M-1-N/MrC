@@ -14,6 +14,7 @@ signal cleared
 @export var reward_count: int = 5
 
 var _gates: Array[StaticBody3D] = []
+var _tracked: Array[Node3D] = []
 var _started: bool = false
 var _finished: bool = false
 var _remaining: int = 0
@@ -31,16 +32,34 @@ func _on_body_entered(body: Node3D) -> void:
 	if _started or not body is Hero:
 		return
 	_started = true
+	if not body.respawned.is_connected(_on_hero_respawned):
+		body.respawned.connect(_on_hero_respawned)
 	for path in enemy_paths:
 		var enemy: Node3D = get_node_or_null(path)
 		if enemy != null:
 			_remaining += 1
+			_tracked.append(enemy)
 			enemy.tree_exited.connect(_on_enemy_gone)
 	if _remaining == 0:
 		_finish()
 		return
 	for gate in _gates:
 		_set_gate_active(gate, true)
+
+
+## Dying mid-fight must not seal the arena forever: drop the gates and
+## re-arm, so walking back in restarts the fight with whoever survived.
+func _on_hero_respawned() -> void:
+	if _finished or not _started:
+		return
+	_started = false
+	_remaining = 0
+	for enemy in _tracked:
+		if is_instance_valid(enemy) and enemy.tree_exited.is_connected(_on_enemy_gone):
+			enemy.tree_exited.disconnect(_on_enemy_gone)
+	_tracked.clear()
+	for gate in _gates:
+		_set_gate_active(gate, false)
 
 
 func _on_enemy_gone() -> void:

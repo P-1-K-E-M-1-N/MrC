@@ -14,6 +14,8 @@ var _failures: Array[String] = []
 
 
 func _ready() -> void:
+	# Keep ticking while the tree is paused so the pause beats can run.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_hero = HERO_SCENE.instantiate()
 	_hero.position = Vector3(0, 0.1, 0)
 	add_child(_hero)
@@ -39,6 +41,16 @@ func _physics_process(_delta: float) -> void:
 			_check(is_equal_approx(Engine.time_scale, 1.0), "time restored after release")
 			_check(_holder.current_index == 1,
 				"flick right equipped slot 1 (got %d)" % _holder.current_index)
+			_send_action(true)
+		50:
+			_check(is_equal_approx(Engine.time_scale, 0.25), "wheel reopened and slowed time")
+			get_tree().paused = true
+		60:
+			_check(is_equal_approx(Engine.time_scale, 1.0), "pausing mid-wheel restored time")
+			_check(not _wheel.visible, "pausing mid-wheel closed the wheel")
+			get_tree().paused = false
+			_send_action(false)
+		70:
 			if _failures.is_empty():
 				print("PASS: weapon wheel")
 				get_tree().quit(0)

@@ -5,6 +5,10 @@ extends CharacterBody3D
 ## falling off the world, and hit feedback. All behavior lives in the
 ## child components.
 
+## Emitted after death or falling off the world, once the hero is back
+## at the spawn point. Arenas use it to unseal and re-arm.
+signal respawned
+
 const FALL_LIMIT_Y: float = -20.0
 
 @onready var _health: HealthComponent = $HealthComponent
@@ -37,6 +41,7 @@ func _respawn() -> void:
 	global_transform = _spawn_transform
 	velocity = Vector3.ZERO
 	_health.reset()
+	respawned.emit()
 
 
 func _on_hit(_amount: int) -> void:

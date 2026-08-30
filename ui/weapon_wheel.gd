@@ -21,13 +21,16 @@ var _selection: int = -1
 
 func _ready() -> void:
 	visible = false
+	# Runs while paused so the wheel can close itself (see _process);
+	# opening is still blocked while paused.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("weapon_wheel") and not get_tree().paused:
 		_open_wheel()
 	elif event.is_action_released("weapon_wheel") and _open:
-		_close_wheel()
+		_close_wheel(true)
 	elif _open and event is InputEventMouseMotion:
 		var motion: InputEventMouseMotion = event
 		_point = (_point + motion.relative).limit_length(160.0)
@@ -35,6 +38,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if not _open:
+		return
+	# Pausing while the wheel is held would swallow the release event and
+	# leave the game stuck in slow motion — close without equipping.
+	if get_tree().paused:
+		_close_wheel(false)
 		return
 	var stick: Vector2 = Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
 	if stick.length() > 0.5:
@@ -54,11 +62,12 @@ func _open_wheel() -> void:
 	_refresh()
 
 
-func _close_wheel() -> void:
+func _close_wheel(equip: bool) -> void:
 	_open = false
 	visible = false
 	Engine.time_scale = 1.0
-	weapon_holder.equip(_selection)
+	if equip:
+		weapon_holder.equip(_selection)
 
 
 func _refresh() -> void:
