@@ -157,12 +157,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 1.02, -0.18)
 [node name="InputComponent" type="Node" parent="."]
 script = ExtResource("1_input")
 
-[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "camera_rig", "visual")]
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("body", "input_component", "camera_rig", "visual", "lock_on")]
 script = ExtResource("2_move")
 body = NodePath("..")
 input_component = NodePath("../InputComponent")
 camera_rig = NodePath("../CameraRig")
 visual = NodePath("../Visual")
+lock_on = NodePath("../LockOnComponent")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_health")

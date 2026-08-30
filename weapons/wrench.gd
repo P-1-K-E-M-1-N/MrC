@@ -41,13 +41,14 @@ func _on_projectile_returned() -> void:
 func _fire() -> void:
 	visible = true
 	_hitbox.activate()
-	_pivot.rotation.y = deg_to_rad(70.0)
+	# Overhead chop: cocked back, swung forward-down past the rest pose.
+	_pivot.rotation.x = deg_to_rad(70.0)
 	var tween: Tween = create_tween()
-	tween.tween_property(_pivot, "rotation:y", deg_to_rad(-70.0), swing_duration)
+	tween.tween_property(_pivot, "rotation:x", deg_to_rad(-70.0), swing_duration)
 	tween.tween_callback(_end_swing)
 
 
 func _end_swing() -> void:
 	_hitbox.deactivate()
-	_pivot.rotation.y = 0.0
+	_pivot.rotation.x = 0.0
 	visible = is_equipped

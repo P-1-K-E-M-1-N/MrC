@@ -10,6 +10,8 @@ signal air_flipped(world_direction: Vector3)
 @export var input_component: InputComponent
 @export var camera_rig: CameraRig
 @export var visual: Node3D
+## While locked on, the body faces the target (strafe/backpedal mode).
+@export var lock_on: LockOnComponent
 
 @export_group("Run")
 @export var max_speed: float = 7.0
@@ -114,8 +116,16 @@ func _get_world_move_direction() -> Vector3:
 
 
 func _face_move_direction(move_direction: Vector3, delta: float) -> void:
-	if move_direction.length_squared() < 0.001:
+	var target_yaw: float
+	if lock_on != null and lock_on.is_locked():
+		var to_target: Vector3 = lock_on.target.global_position - body.global_position
+		to_target.y = 0.0
+		if to_target.length_squared() < 0.001:
+			return
+		target_yaw = atan2(-to_target.x, -to_target.z)
+	elif move_direction.length_squared() >= 0.001:
+		target_yaw = atan2(-move_direction.x, -move_direction.z)
+	else:
 		return
-	var target_yaw: float = atan2(-move_direction.x, -move_direction.z)
 	var weight: float = 1.0 - exp(-turn_speed * delta)
 	visual.rotation.y = lerp_angle(visual.rotation.y, target_yaw, weight)
