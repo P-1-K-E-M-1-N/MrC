@@ -38,9 +38,9 @@ sky = SubResource("Sky_sky")
 ambient_light_source = 3
 tonemap_mode = 2
 glow_enabled = true
-glow_intensity = 0.6
-glow_bloom = 0.1
-glow_hdr_threshold = 0.9
+glow_intensity = 0.45
+glow_bloom = 0.05
+glow_hdr_threshold = 1.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.008
 volumetric_fog_albedo = Color(1, 0.85, 0.74, 1)
@@ -54,54 +54,54 @@ shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.42, 0.47, 0.6, 1)
 shader_parameter/groove_color = Color(0.16, 0.18, 0.24, 1)
 shader_parameter/trim_color = Color(0.2, 0.85, 0.95, 1)
-shader_parameter/trim_emission = 2.0
+shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
-shader_parameter/trim_every = 4.0
+shader_parameter/trim_every = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_walk"]
 shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.55, 0.44, 0.34, 1)
 shader_parameter/groove_color = Color(0.24, 0.18, 0.14, 1)
 shader_parameter/trim_color = Color(1, 0.72, 0.25, 1)
-shader_parameter/trim_emission = 1.2
+shader_parameter/trim_emission = 0.5
 shader_parameter/tile_size = 1.5
-shader_parameter/trim_every = 4.0
+shader_parameter/trim_every = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena1"]
 shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.5, 0.42, 0.36, 1)
 shader_parameter/groove_color = Color(0.2, 0.16, 0.13, 1)
 shader_parameter/trim_color = Color(1, 0.6, 0.15, 1)
-shader_parameter/trim_emission = 2.2
+shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
-shader_parameter/trim_every = 3.0
+shader_parameter/trim_every = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena2"]
 shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.4, 0.38, 0.52, 1)
 shader_parameter/groove_color = Color(0.15, 0.13, 0.22, 1)
 shader_parameter/trim_color = Color(0.95, 0.3, 0.85, 1)
-shader_parameter/trim_emission = 2.2
+shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
-shader_parameter/trim_every = 3.0
+shader_parameter/trim_every = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_arena3"]
 shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.38, 0.46, 0.4, 1)
 shader_parameter/groove_color = Color(0.13, 0.18, 0.15, 1)
 shader_parameter/trim_color = Color(0.55, 1, 0.25, 1)
-shader_parameter/trim_emission = 2.2
+shader_parameter/trim_emission = 0.8
 shader_parameter/tile_size = 2.0
-shader_parameter/trim_every = 3.0
+shader_parameter/trim_every = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_floor_exit"]
 shader = ExtResource("15_floorshader")
 shader_parameter/base_color = Color(0.4, 0.5, 0.45, 1)
 shader_parameter/groove_color = Color(0.14, 0.2, 0.17, 1)
 shader_parameter/trim_color = Color(0.3, 1, 0.5, 1)
-shader_parameter/trim_emission = 3.0
+shader_parameter/trim_emission = 1.2
 shader_parameter/tile_size = 1.25
-shader_parameter/trim_every = 2.0
+shader_parameter/trim_every = 4.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_accent"]
 albedo_color = Color(0.55, 0.42, 0.32, 1)
@@ -206,13 +206,13 @@ roughness = 0.5
 albedo_color = Color(0.2, 0.85, 0.95, 1)
 emission_enabled = true
 emission = Color(0.15, 0.75, 0.9, 1)
-emission_energy_multiplier = 2.5
+emission_energy_multiplier = 1.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_green"]
 albedo_color = Color(0.3, 1, 0.5, 1)
 emission_enabled = true
 emission = Color(0.2, 0.95, 0.4, 1)
-emission_energy_multiplier = 3.0
+emission_energy_multiplier = 1.4
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lip16"]
 material = SubResource("StandardMaterial3D_post")
@@ -624,7 +624,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, 0, 7.3)
 [node name="PadFill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 light_color = Color(0.4, 0.85, 0.95, 1)
-light_energy = 0.6
+light_energy = 0.4
 omni_range = 12.0
 
 [node name="A1Pylon1" parent="Decor" instance=ExtResource("17_pylonamber")]
@@ -642,7 +642,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 0, -22.8)
 [node name="A1Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -34)
 light_color = Color(1, 0.65, 0.3, 1)
-light_energy = 0.7
+light_energy = 0.5
 omni_range = 16.0
 
 [node name="A2Pylon1" parent="Decor" instance=ExtResource("18_pylonmagenta")]
@@ -660,7 +660,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 3, -68.8)
 [node name="A2Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -80)
 light_color = Color(0.95, 0.4, 0.85, 1)
-light_energy = 0.7
+light_energy = 0.5
 omni_range = 16.0
 
 [node name="A3Pylon1" parent="Decor" instance=ExtResource("19_pylonlime")]
@@ -678,7 +678,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 3, -106.8)
 [node name="A3Fill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -120)
 light_color = Color(0.6, 1, 0.35, 1)
-light_energy = 0.7
+light_energy = 0.5
 omni_range = 18.0
 
 [node name="PlazaPylon1" parent="Decor" instance=ExtResource("16_pylon")]
@@ -694,7 +694,7 @@ mesh = SubResource("TorusMesh_exitring")
 [node name="ExitFill" type="OmniLight3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -153)
 light_color = Color(0.4, 1, 0.55, 1)
-light_energy = 0.8
+light_energy = 0.6
 omni_range = 8.0
 
 [node name="PadLipN" type="MeshInstance3D" parent="Decor"]
