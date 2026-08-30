@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3]
+[gd_scene load_steps=68 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -26,8 +26,8 @@
 sky_top_color = Color(0.16, 0.34, 0.88, 1)
 sky_horizon_color = Color(1, 0.64, 0.42, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.22, 0.12, 0.32, 1)
-ground_horizon_color = Color(0.95, 0.58, 0.48, 1)
+ground_bottom_color = Color(0.82, 0.6, 0.52, 1)
+ground_horizon_color = Color(0.95, 0.66, 0.52, 1)
 
 [sub_resource type="Sky" id="Sky_sky"]
 sky_material = SubResource("ProceduralSkyMaterial_sky")
@@ -238,6 +238,10 @@ outer_radius = 5.0
 material = SubResource("StandardMaterial3D_glow_green")
 inner_radius = 2.9
 outer_radius = 3.2
+
+[sub_resource type="FogMaterial" id="FogMaterial_sea"]
+density = 0.35
+albedo = Color(1, 0.88, 0.8, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gatepillar"]
 material = SubResource("StandardMaterial3D_post")
@@ -595,6 +599,11 @@ mesh = SubResource("BoxMesh_gate14")
 shape = SubResource("BoxShape3D_gate14")
 
 [node name="Decor" type="Node3D" parent="."]
+
+[node name="FogSea" type="FogVolume" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14, -75)
+size = Vector3(400, 24, 400)
+material = SubResource("FogMaterial_sea")
 
 [node name="PadRing" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
