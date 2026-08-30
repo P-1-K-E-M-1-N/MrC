@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3]
+[gd_scene load_steps=67 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c1herocaps0001" path="res://player/hero.tscn" id="1_hero"]
 [ext_resource type="PackedScene" path="res://enemies/rusher.tscn" id="2_rusher"]
@@ -238,6 +238,17 @@ outer_radius = 5.0
 material = SubResource("StandardMaterial3D_glow_green")
 inner_radius = 2.9
 outer_radius = 3.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gatepillar"]
+material = SubResource("StandardMaterial3D_post")
+top_radius = 0.28
+bottom_radius = 0.4
+height = 5.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_gatecap"]
+material = SubResource("StandardMaterial3D_glow_cyan")
+radius = 0.3
+height = 0.6
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_arena_vol24"]
 size = Vector3(16, 10, 15)
@@ -797,3 +808,99 @@ transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 12.4, 3, -132)
 
 [node name="Crystal9" parent="Decor" instance=ExtResource("21_crystal")]
 transform = Transform3D(0.766, 0, 0.643, 0, 1, 0, -0.643, 0, 0.766, -6, 3, -144)
+
+[node name="GateInPillarL" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 2.5, 11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapL" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 5.15, 11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateInPillarR" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 2.5, 11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapR" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 5.15, 11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarL" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7, 2.5, -11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapL" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7, 5.15, -11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarR" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7, 2.5, -11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapR" type="MeshInstance3D" parent="Arena1Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7, 5.15, -11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateInPillarL" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7, 2.5, 11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapL" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7, 5.15, 11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateInPillarR" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7, 2.5, 11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapR" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7, 5.15, 11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarL" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 2.5, -11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapL" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 5.15, -11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarR" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 2.5, -11.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapR" type="MeshInstance3D" parent="Arena2Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 5.15, -11.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateInPillarL" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 2.5, 13.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapL" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 5.15, 13.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateInPillarR" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 2.5, 13.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateInCapR" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 5.15, 13.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarL" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 2.5, -13.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapL" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 5.15, -13.5)
+mesh = SubResource("SphereMesh_gatecap")
+
+[node name="GateOutPillarR" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 2.5, -13.5)
+mesh = SubResource("CylinderMesh_gatepillar")
+
+[node name="GateOutCapR" type="MeshInstance3D" parent="Arena3Volume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 5.15, -13.5)
+mesh = SubResource("SphereMesh_gatecap")
